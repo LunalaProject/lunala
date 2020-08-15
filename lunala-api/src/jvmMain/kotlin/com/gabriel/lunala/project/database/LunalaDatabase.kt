@@ -24,6 +24,7 @@ class LunalaDatabase(private val tables: List<Table>) {
     }
 
     fun createTables() = transaction {
+        SchemaUtils.drop(*tables.toTypedArray())
         SchemaUtils.createMissingTablesAndColumns(*tables.toTypedArray())
     }
 

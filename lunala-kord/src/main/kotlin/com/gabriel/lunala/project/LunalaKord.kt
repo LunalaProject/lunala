@@ -1,8 +1,12 @@
 package com.gabriel.lunala.project
 
+import com.gabriel.lunala.project.achievements.AchievementHandler
 import com.gabriel.lunala.project.command.flow.CommandRegistry
 import com.gabriel.lunala.project.command.handler.*
 import com.gabriel.lunala.project.database.LunalaDatabase
+import com.gabriel.lunala.project.manager.PlanetManager
+import com.gabriel.lunala.project.planet.Planets
+import com.gabriel.lunala.project.table.LunalaAchievements
 import com.gabriel.lunala.project.table.LunalaProfiles
 import com.gabriel.lunala.project.table.LunalaServers
 import com.gitlab.kordlib.core.Kord
@@ -20,7 +24,7 @@ class LunalaKord: Lunala() {
         val logger = LoggerFactory.getLogger(Lunala::class.java)
 
         val client = Kord(dotenv()["TOKEN"] ?: error("Token was not defined."))
-        val database = LunalaDatabase(listOf(LunalaProfiles, LunalaServers)).also {
+        val database = LunalaDatabase(listOf(LunalaProfiles, LunalaServers, LunalaAchievements)).also {
             it.connect()
             it.createTables()
         }
@@ -35,7 +39,9 @@ class LunalaKord: Lunala() {
             single { database }
             single { logger }
             single { flowRegistry }
+            single<AchievementHandler> { AchievementHandler() }
             single { CoroutineScope(Executors.newFixedThreadPool(1).asCoroutineDispatcher()) }
+            single<PlanetManager> { Planets }
             single<CommandHandler<DiscordCommandContext>> { handler }
             single<CommandHolder> { holder }
         })

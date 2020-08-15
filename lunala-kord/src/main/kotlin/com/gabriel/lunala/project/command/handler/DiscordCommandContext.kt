@@ -3,8 +3,8 @@ package com.gabriel.lunala.project.command.handler
 import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.CommandContext
 import com.gabriel.lunala.project.command.snapshot.ShardCommand
-import com.gabriel.lunala.project.database.entity.Profile
-import com.gabriel.lunala.project.database.entity.Server
+import com.gabriel.lunala.project.entity.Profile
+import com.gabriel.lunala.project.entity.Server
 import com.gabriel.lunala.project.utils.message.LunalaReply
 import com.gitlab.kordlib.core.entity.Guild
 import com.gitlab.kordlib.core.entity.Member
@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.core.KoinComponent
 import org.koin.core.get
+import java.awt.Color
 import java.time.Instant
 
 class DiscordCommandContext(

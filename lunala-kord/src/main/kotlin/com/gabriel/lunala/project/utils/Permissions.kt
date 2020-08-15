@@ -1,8 +1,6 @@
 package com.gabriel.lunala.project.utils
 
 import com.gabriel.lunala.project.utils.Permission.PERMISSIONS
-import com.gabriel.lunala.project.utils.text.Case
-import com.gabriel.lunala.project.utils.text.convert
 import com.gitlab.kordlib.common.entity.Permission
 import com.gitlab.kordlib.core.entity.Member
 import com.gitlab.kordlib.core.entity.channel.GuildChannel

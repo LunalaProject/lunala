@@ -12,6 +12,14 @@ class CommandBuilder(private val labels: List<String>) {
     private var descriptionCallback: () -> String = { "My ultra cool description!" }
     private var examplesCallback: () -> List<String> = { emptyList() }
 
+    fun description(callback: () -> String) {
+        descriptionCallback = callback
+    }
+
+    fun examples(callback: () -> List<String>) {
+        examplesCallback = callback
+    }
+
     @Suppress("unchecked_cast")
     fun <T : CommandContext> shard(vararg labels: String = emptyArray(), permissions: List<LunalaPermission> = emptyList(), callback: suspend T.() -> Unit) {
         shards[labels.toList()] = ShardCommand(labels.toList(), permissions, callback as suspend CommandContext.() -> Unit)

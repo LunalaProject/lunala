@@ -18,8 +18,6 @@ import org.koin.core.get
 class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponent {
 
     override suspend fun startListening() = get<Kord>().on<MessageCreateEvent> {
-        println("message")
-
         if (message.author == null) return@on
 
         if (!message.content.startsWith(PREFIX)) return@on
@@ -62,6 +60,8 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
     override suspend fun dispatch(context: DiscordCommandContext) = get<CoroutineScope>().launch {
         val hasPermission = context.member.getLunalaPermissions(context.channel).containsAll(context.shard.permissions)
 
+
+
         if (!hasPermission) {
             context.reply(LunalaReply(
                     prefix = ":no_entry_sign:",
@@ -77,19 +77,21 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
 
         if (exception is FailException) exception.callback()
 
+        exception.printStackTrace()
+
         context.member.getDmChannel().runCatching {
             createMessage(LunalaReply(
                     """B-beep boop! Aparentemente aconteceu um erro ao executar o comando `${context.label}`!
                         
-                        `${exception.message}`
+                    `${exception.message}`
                         
-                        Cheque se eu tenho as permissões corretas em seu servidor, e
-                        lembre-se de tentar executar o comando novamente, mas caso o erro persistir...
+                    Cheque se eu tenho as permissões corretas em seu servidor, e
+                    lembre-se de tentar executar o comando novamente, mas caso o erro persistir...
                         
-                        Caso o erro persistir, busque pela nossa equipe de administração que poderá te ajudar.
+                    Caso o erro persistir, busque pela nossa equipe de administração que poderá te ajudar.
                     """.trimIndent()
             ).format())
-        }.exceptionOrNull()?.printStackTrace()
+        }
 
     }.run { Unit }
 
