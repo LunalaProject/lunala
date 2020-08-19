@@ -74,7 +74,7 @@ class AchievementHandler: KoinComponent {
         kotlin.runCatching {
             channel.createMessage(LunalaReply(
                     ":tada:",
-                    "won the achievement `${achievement.name}`!",
+                    "won the achievement `${achievement.name}`, congratulations!",
                     mentionable = profile
             ).format())
             user.getDmChannel().createMessage {

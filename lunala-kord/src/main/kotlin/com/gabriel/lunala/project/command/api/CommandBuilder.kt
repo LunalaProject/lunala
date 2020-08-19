@@ -10,7 +10,7 @@ class CommandBuilder(private val labels: List<String>) {
     private val shards = mutableMapOf<List<String>, ShardCommand>()
 
     private var descriptionCallback: () -> String = { "My ultra cool description!" }
-    private var examplesCallback: () -> List<String> = { emptyList() }
+    private var examplesCallback: () -> List<String> = { listOf("") }
 
     fun description(callback: () -> String) {
         descriptionCallback = callback

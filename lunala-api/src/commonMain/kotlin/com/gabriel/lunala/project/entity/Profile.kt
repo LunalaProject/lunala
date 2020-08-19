@@ -10,5 +10,6 @@ interface Profile: Mentionable {
 
     val idLong: Long
     val currentPlanet: Planet
+    val launchedBefore: Boolean
 
 }

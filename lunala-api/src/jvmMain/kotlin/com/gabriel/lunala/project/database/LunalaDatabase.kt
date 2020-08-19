@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class LunalaDatabase(private val tables: List<Table>) {
+data class LunalaDatabase(private val tables: List<Table>) {
 
     lateinit var exposed: Database
 

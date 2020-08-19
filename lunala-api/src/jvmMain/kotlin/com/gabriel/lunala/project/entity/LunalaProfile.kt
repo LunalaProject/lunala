@@ -17,12 +17,10 @@ class LunalaProfile(id: EntityID<Long>): LongEntity(id), Profile, KoinComponent 
     companion object: LongEntityClass<LunalaProfile>(LunalaProfiles)
 
     override val idLong: Long = id.value
-
-    val oi by LunalaProfiles.currentPlanet
+    override val launchedBefore: Boolean by LunalaProfiles.launchedBefore
 
     override var currentPlanet: Planet
         get() = get<PlanetManager>().planets.first {
-            println("Looking for ${LunalaProfiles.currentPlanet.getValue(this, LunalaProfile::currentPlanet)} but received ${it.name}")
             it.name == LunalaProfiles.currentPlanet.getValue(this, LunalaProfile::currentPlanet) }
         set(value) = LunalaProfiles.currentPlanet.setValue(this, LunalaProfile::currentPlanet, value.name)
 

@@ -10,6 +10,7 @@ import org.koin.core.get
 object LunalaProfiles: LongIdTable(), KoinComponent {
 
     val currentPlanet = varchar("current_planet", 18)
+    val launchedBefore = bool("launched_before")
 
     fun findOrCreate(id: Long): LunalaProfile = transaction {
         LunalaProfile.findById(id) ?: LunalaProfile.new(id) {

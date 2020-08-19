@@ -1,11 +1,13 @@
 package com.gabriel.lunala.project.command.handler
 
+import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.CommandContext
 import com.gabriel.lunala.project.command.exception.FailException
 import com.gabriel.lunala.project.table.LunalaProfiles
 import com.gabriel.lunala.project.table.LunalaServers
 import com.gabriel.lunala.project.utils.getLunalaPermissions
 import com.gabriel.lunala.project.utils.message.LunalaReply
+import com.gabriel.lunala.project.utils.text.LevenshteinCalculator
 import com.gitlab.kordlib.core.Kord
 import com.gitlab.kordlib.core.event.message.MessageCreateEvent
 import com.gitlab.kordlib.core.on
@@ -14,8 +16,12 @@ import kotlinx.coroutines.handleCoroutineException
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.get
+import org.koin.core.inject
+import java.util.*
 
 class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponent {
+
+    private val holder: CommandHolder by inject()
 
     override suspend fun startListening() = get<Kord>().on<MessageCreateEvent> {
         if (message.author == null) return@on
@@ -94,6 +100,18 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
         }
 
     }.run { Unit }
+
+    private fun similarest(input: String): Command {
+        val levenshtein: MutableMap<Int, Command> = mutableMapOf()
+
+        holder.commands.forEach {
+            levenshtein[LevenshteinCalculator.levenshtein(input, it.value.labels[0])] = it.value
+        }
+
+        val highest = Collections.max(levenshtein.keys)
+
+        return levenshtein[highest]!!
+    }
 
     companion object {
 

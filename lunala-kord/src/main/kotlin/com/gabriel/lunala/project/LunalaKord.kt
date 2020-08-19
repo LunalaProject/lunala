@@ -9,6 +9,7 @@ import com.gabriel.lunala.project.planet.Planets
 import com.gabriel.lunala.project.table.LunalaAchievements
 import com.gabriel.lunala.project.table.LunalaProfiles
 import com.gabriel.lunala.project.table.LunalaServers
+import com.gabriel.lunala.project.utils.text.LevenshteinCalculator
 import com.gitlab.kordlib.core.Kord
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.CoroutineScope

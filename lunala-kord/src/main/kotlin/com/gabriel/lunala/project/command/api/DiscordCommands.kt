@@ -9,5 +9,5 @@ import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
 inline fun command(vararg labels: String, block: CommandBuilder.() -> Unit): Command =
         CommandBuilder(labels.toList()).apply(block).create()
 
-fun CommandContext.fail(callback: () -> Unit): Nothing =
+suspend fun CommandContext.fail(callback: suspend () -> Unit): Nothing =
         throw FailException(callback)

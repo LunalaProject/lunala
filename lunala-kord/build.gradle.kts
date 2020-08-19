@@ -11,9 +11,10 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-
     api(project(":lunala-api"))
+
     api("com.gitlab.kordlib.kord:kord-core:0.5.11")
+    api("com.gitlab.kordlib:kordx.emoji:0.2.0")
 
     api("io.github.cdimascio:java-dotenv:5.2.1")
     api("mysql:mysql-connector-java:8.0.20")
