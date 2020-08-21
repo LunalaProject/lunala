@@ -9,7 +9,7 @@ import com.gitlab.kordlib.kordx.emoji.toReaction
 
 class ReactionContext(val message: Message, val emoji: DiscordEmoji) {
 
-    fun recycle(){
+    fun recycle() {
         recycling.add(message)
     }
 

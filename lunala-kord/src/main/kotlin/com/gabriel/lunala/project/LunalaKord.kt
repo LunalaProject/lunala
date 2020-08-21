@@ -5,11 +5,10 @@ import com.gabriel.lunala.project.command.flow.CommandRegistry
 import com.gabriel.lunala.project.command.handler.*
 import com.gabriel.lunala.project.database.LunalaDatabase
 import com.gabriel.lunala.project.manager.PlanetManager
-import com.gabriel.lunala.project.planet.Planets
+import com.gabriel.lunala.project.planet.StandalonePlanets
 import com.gabriel.lunala.project.table.LunalaAchievements
 import com.gabriel.lunala.project.table.LunalaProfiles
 import com.gabriel.lunala.project.table.LunalaServers
-import com.gabriel.lunala.project.utils.text.LevenshteinCalculator
 import com.gitlab.kordlib.core.Kord
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.CoroutineScope
@@ -40,9 +39,10 @@ class LunalaKord: Lunala() {
             single { database }
             single { logger }
             single { flowRegistry }
+            single<Lunala> { this@LunalaKord }
             single<AchievementHandler> { AchievementHandler() }
             single { CoroutineScope(Executors.newFixedThreadPool(1).asCoroutineDispatcher()) }
-            single<PlanetManager> { Planets }
+            single<PlanetManager> { StandalonePlanets }
             single<CommandHandler<DiscordCommandContext>> { handler }
             single<CommandHolder> { holder }
         })

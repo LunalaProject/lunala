@@ -1,18 +1,19 @@
 package com.gabriel.lunala.project.command.handler
 
+import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.command.Command
-import com.gabriel.lunala.project.command.CommandContext
 import com.gabriel.lunala.project.command.exception.FailException
 import com.gabriel.lunala.project.table.LunalaProfiles
 import com.gabriel.lunala.project.table.LunalaServers
 import com.gabriel.lunala.project.utils.getLunalaPermissions
-import com.gabriel.lunala.project.utils.message.LunalaReply
+import com.gabriel.lunala.project.utils.luna.getProfileOrCreate
+import com.gabriel.lunala.project.utils.message.LunaReply
 import com.gabriel.lunala.project.utils.text.LevenshteinCalculator
 import com.gitlab.kordlib.core.Kord
+import com.gitlab.kordlib.core.entity.channel.TextChannel
 import com.gitlab.kordlib.core.event.message.MessageCreateEvent
 import com.gitlab.kordlib.core.on
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.handleCoroutineException
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.get
@@ -22,6 +23,7 @@ import java.util.*
 class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponent {
 
     private val holder: CommandHolder by inject()
+    private val lunala: Lunala by inject()
 
     override suspend fun startListening() = get<Kord>().on<MessageCreateEvent> {
         if (message.author == null) return@on
@@ -49,7 +51,7 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
         if (shard.names.isNotEmpty())
             args.removeAt(0)
 
-        val profile = LunalaProfiles.findOrCreate(message.author!!.id.longValue)
+        val profile = lunala.getProfileOrCreate(message.author!!.id.longValue)
         val server = LunalaServers.findOrCreate(message.getAuthorAsMember()!!.guildId.longValue)
 
         dispatch(DiscordCommandContext(
@@ -59,7 +61,10 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
                 server = server,
                 args = args,
                 shard = shard,
-                message = message
+                message = message,
+                member = member!!,
+                guild = getGuild()!!,
+                channel = message.channel.asChannel() as TextChannel
         ))
     }.run { Unit }
 
@@ -69,7 +74,7 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
 
 
         if (!hasPermission) {
-            context.reply(LunalaReply(
+            context.reply(LunaReply(
                     prefix = ":no_entry_sign:",
                     content = ", você precisa das seguintes permissões para executar este comando: `${context.shard.permissions.joinToString { it.name }}}`!",
                     mentionable = context.profile
@@ -86,7 +91,7 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
         exception.printStackTrace()
 
         context.member.getDmChannel().runCatching {
-            createMessage(LunalaReply(
+            createMessage(LunaReply(
                     """B-beep boop! Aparentemente aconteceu um erro ao executar o comando `${context.label}`!
                         
                     `${exception.message}`

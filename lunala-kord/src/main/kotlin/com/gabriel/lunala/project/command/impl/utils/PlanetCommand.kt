@@ -5,15 +5,12 @@ import com.gabriel.lunala.project.command.api.command
 import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
 import com.gabriel.lunala.project.manager.PlanetManager
-import com.gabriel.lunala.project.planet.MutablePlanet
-import com.gabriel.lunala.project.planet.Planets
 import com.gabriel.lunala.project.utils.embed
-import com.gabriel.lunala.project.utils.message.LunalaReply
+import com.gabriel.lunala.project.utils.message.LunaReply
 import com.gabriel.lunala.project.utils.stripAccents
-import com.gabriel.lunala.project.utils.text.Color
 import com.gitlab.kordlib.core.behavior.channel.createMessage
 import org.koin.core.get
-import java.text.Normalizer
+import java.awt.Color
 import java.time.Instant
 
 class PlanetCommand: SnapshotCommand {
@@ -30,10 +27,10 @@ class PlanetCommand: SnapshotCommand {
         shard<DiscordCommandContext> {
             val planet = get<PlanetManager>().planets.firstOrNull {
                 it.name.toLowerCase().stripAccents() == args.getOrNull(0)?.toLowerCase()?.stripAccents() ?: false
-            } as MutablePlanet?
+            }
 
             if (planet == null) {
-                reply(LunalaReply(
+                reply(LunaReply(
                         ":no_entry_sign:",
                         ", the required planet couldn't be found in my system.",
                         mentionable = profile
@@ -49,7 +46,7 @@ class PlanetCommand: SnapshotCommand {
                     url = planet.image
                 }
 
-                color = planet.color
+                color = Color.decode(planet.color)
 
                 field {
                     name = "\uD83D\uDC8C Name"
@@ -73,7 +70,7 @@ class PlanetCommand: SnapshotCommand {
                 }
                 field {
                     name = "\uD83C\uDFC1 Are you in"
-                    value = if (profile.currentPlanet == planet) "Yes" else "No"
+                    value = if (profile.planet == planet) "Yes" else "No"
                     inline = true
                 }
 

@@ -1,6 +1,6 @@
 package com.gabriel.lunala.project.entity
 
-import com.gabriel.lunala.project.entity.space.Planet
+import com.gabriel.lunala.project.entity.extra.Planet
 import com.gabriel.lunala.project.utils.Mentionable
 
 interface Profile: Mentionable {
@@ -9,7 +9,7 @@ interface Profile: Mentionable {
         get() = "<@$idLong>"
 
     val idLong: Long
-    val currentPlanet: Planet
-    val launchedBefore: Boolean
+    val money: Long
+    val planet: Planet
 
 }

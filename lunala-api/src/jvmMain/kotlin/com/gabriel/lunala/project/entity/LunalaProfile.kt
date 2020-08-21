@@ -1,11 +1,8 @@
 package com.gabriel.lunala.project.entity
 
-import com.gabriel.lunala.project.Lunala
-import com.gabriel.lunala.project.entity.Profile
-import com.gabriel.lunala.project.entity.space.Planet
+import com.gabriel.lunala.project.entity.extra.Planet
 import com.gabriel.lunala.project.manager.PlanetManager
 import com.gabriel.lunala.project.table.LunalaProfiles
-import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -17,11 +14,11 @@ class LunalaProfile(id: EntityID<Long>): LongEntity(id), Profile, KoinComponent 
     companion object: LongEntityClass<LunalaProfile>(LunalaProfiles)
 
     override val idLong: Long = id.value
-    override val launchedBefore: Boolean by LunalaProfiles.launchedBefore
 
-    override var currentPlanet: Planet
+    override var money: Long by LunalaProfiles.money
+    override var planet: Planet
         get() = get<PlanetManager>().planets.first {
-            it.name == LunalaProfiles.currentPlanet.getValue(this, LunalaProfile::currentPlanet) }
-        set(value) = LunalaProfiles.currentPlanet.setValue(this, LunalaProfile::currentPlanet, value.name)
+            it.name == LunalaProfiles.planet.getValue(this, LunalaProfile::planet) }
+        set(value) = LunalaProfiles.planet.setValue(this, LunalaProfile::planet, value.name)
 
 }

@@ -1,10 +1,10 @@
 package com.gabriel.lunala.project.achievements
 
 import com.gabriel.lunala.project.entity.Profile
-import com.gabriel.lunala.project.entity.space.Achievement
+import com.gabriel.lunala.project.entity.extra.Achievement
 import com.gabriel.lunala.project.table.LunalaAchievements
 import com.gabriel.lunala.project.utils.embed
-import com.gabriel.lunala.project.utils.message.LunalaReply
+import com.gabriel.lunala.project.utils.message.LunaReply
 import com.gitlab.kordlib.common.entity.Snowflake
 import com.gitlab.kordlib.core.Kord
 import com.gitlab.kordlib.core.behavior.channel.createMessage
@@ -72,7 +72,7 @@ class AchievementHandler: KoinComponent {
         }
 
         kotlin.runCatching {
-            channel.createMessage(LunalaReply(
+            channel.createMessage(LunaReply(
                     ":tada:",
                     "won the achievement `${achievement.name}`, congratulations!",
                     mentionable = profile

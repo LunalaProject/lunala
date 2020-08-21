@@ -1,9 +1,9 @@
 package com.gabriel.lunala.project.manager
 
-import com.gabriel.lunala.project.entity.space.Planet
+import com.gabriel.lunala.project.entity.extra.Planet
 
 interface PlanetManager {
 
-    val planets: MutableList<Planet>
+    val planets: List<Planet>
 
 }
