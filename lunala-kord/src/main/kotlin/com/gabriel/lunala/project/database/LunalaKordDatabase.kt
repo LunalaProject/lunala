@@ -1,5 +1,7 @@
 package com.gabriel.lunala.project.database
 
+import com.gabriel.lunala.project.Lunala
+import com.gabriel.lunala.project.utils.luna.createTransaction
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
@@ -7,11 +9,14 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.transaction
 
-data class LunalaDatabase(private val tables: List<Table>) {
+class LunalaKordDatabase(
+        lunala: Lunala,
+        private val tables: List<Table>
+): LunalaDatabase(lunala) {
 
     lateinit var exposed: Database
 
-    fun connect() {
+    override fun connect() {
         val config = HikariConfig().apply {
             jdbcUrl = "jdbc:mysql://localhost:3306/lunalaDatabase?useTimezone=true&serverTimezone=UTC"
             driverClassName = "com.mysql.cj.jdbc.Driver"
@@ -23,9 +28,7 @@ data class LunalaDatabase(private val tables: List<Table>) {
         exposed = Database.connect(HikariDataSource(config))
     }
 
-    fun createTables() = transaction {
-        SchemaUtils.drop(*tables.toTypedArray())
+    override suspend fun createTables() = lunala.createTransaction {
         SchemaUtils.createMissingTablesAndColumns(*tables.toTypedArray())
     }
-
 }

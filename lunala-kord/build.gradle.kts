@@ -13,6 +13,9 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     api(project(":lunala-api"))
 
+    api("org.jetbrains.kotlin:kotlin-compiler:1.3.72")
+    api("org.jetbrains.kotlin:kotlin-script-util:1.3.72")
+
     api("com.gitlab.kordlib.kord:kord-core:0.5.11")
     api("com.gitlab.kordlib:kordx.emoji:0.2.0")
 

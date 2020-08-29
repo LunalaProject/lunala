@@ -9,5 +9,5 @@ class DiscordReply(
         content: String = "",
         mentionable: Mentionable? = null,
         image: Image? = null,
-        val embed: EmbedBuilder
+        val embed: EmbedBuilder? = null
 ): LunaReply(prefix, content, mentionable, image)

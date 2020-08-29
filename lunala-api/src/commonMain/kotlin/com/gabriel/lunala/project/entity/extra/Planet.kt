@@ -7,6 +7,5 @@ abstract class Planet(
         val mass: Long,
         val color: String,
         val radius: Long,
-        val density: Float,
         val temperature: Int
 )

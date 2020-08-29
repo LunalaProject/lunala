@@ -71,37 +71,38 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, KoinComponen
     override suspend fun dispatch(context: DiscordCommandContext) = get<CoroutineScope>().launch {
         val hasPermission = context.member.getLunalaPermissions(context.channel).containsAll(context.shard.permissions)
 
-
-
         if (!hasPermission) {
             context.reply(LunaReply(
                     prefix = ":no_entry_sign:",
-                    content = ", você precisa das seguintes permissões para executar este comando: `${context.shard.permissions.joinToString { it.name }}}`!",
+                    content = ", you need the following permissions to execute this command: `${context.shard.permissions.joinToString { it.name }}}`!",
                     mentionable = context.profile
             ))
             return@launch
         }
 
-        val exception = context.shard.runCatching {
-            callback(context)
+        val exception: Throwable = context.shard.runCatching {
+            callback.invoke(context)
         }.exceptionOrNull() ?: return@launch
 
         if (exception is FailException) exception.callback()
 
+
         exception.printStackTrace()
 
         context.member.getDmChannel().runCatching {
+            /**
             createMessage(LunaReply(
-                    """B-beep boop! Aparentemente aconteceu um erro ao executar o comando `${context.label}`!
+                    """B-beep boop! Apparently there was an error when you tried to execute the command `${context.label}`!
                         
                     `${exception.message}`
                         
-                    Cheque se eu tenho as permissões corretas em seu servidor, e
-                    lembre-se de tentar executar o comando novamente, mas caso o erro persistir...
-                        
-                    Caso o erro persistir, busque pela nossa equipe de administração que poderá te ajudar.
+                    Check if I have the correct permissions on your server, and try to execute the command
+                    one more time, and if the error persists, you can contact our administration team: discord.gg/Error404
+
+                    Thank you for the attention! :wink:
                     """.trimIndent()
             ).format())
+            */
         }
 
     }.run { Unit }

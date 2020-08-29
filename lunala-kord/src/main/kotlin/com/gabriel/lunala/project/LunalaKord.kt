@@ -1,16 +1,18 @@
 package com.gabriel.lunala.project
 
 import com.gabriel.lunala.project.achievements.AchievementHandler
-import com.gabriel.lunala.project.command.flow.CommandRegistry
+import com.gabriel.lunala.project.command.registry.CommandRegistry
 import com.gabriel.lunala.project.command.handler.*
 import com.gabriel.lunala.project.database.LunalaDatabase
+import com.gabriel.lunala.project.database.LunalaKordDatabase
 import com.gabriel.lunala.project.manager.PlanetManager
-import com.gabriel.lunala.project.planet.StandalonePlanets
+import com.gabriel.lunala.project.planet.StandalonePlanet
 import com.gabriel.lunala.project.table.LunalaAchievements
 import com.gabriel.lunala.project.table.LunalaProfiles
 import com.gabriel.lunala.project.table.LunalaServers
 import com.gitlab.kordlib.core.Kord
 import io.github.cdimascio.dotenv.dotenv
+import io.ktor.http.cio.websocket.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import org.koin.core.context.startKoin
@@ -24,25 +26,26 @@ class LunalaKord: Lunala() {
         val logger = LoggerFactory.getLogger(Lunala::class.java)
 
         val client = Kord(dotenv()["TOKEN"] ?: error("Token was not defined."))
-        val database = LunalaDatabase(listOf(LunalaProfiles, LunalaServers, LunalaAchievements)).also {
+        val database = LunalaKordDatabase(this, listOf(LunalaProfiles, LunalaServers, LunalaAchievements)).also {
             it.connect()
             it.createTables()
         }
 
+
         val holder = DiscordCommandHolder()
         val handler = DiscordCommandHandler()
 
-        val flowRegistry = CommandRegistry()
+        val registry = CommandRegistry()
 
         val modules = mutableListOf(module {
             single { client }
             single { database }
             single { logger }
-            single { flowRegistry }
+            single { registry }
             single<Lunala> { this@LunalaKord }
-            single<AchievementHandler> { AchievementHandler() }
+            single { AchievementHandler() }
             single { CoroutineScope(Executors.newFixedThreadPool(1).asCoroutineDispatcher()) }
-            single<PlanetManager> { StandalonePlanets }
+            single<PlanetManager> { StandalonePlanet }
             single<CommandHandler<DiscordCommandContext>> { handler }
             single<CommandHolder> { holder }
         })
@@ -51,7 +54,7 @@ class LunalaKord: Lunala() {
             modules(modules)
         }
 
-        flowRegistry.register(holder)
+        registry.register(holder)
         handler.startListening()
 
         client.login {

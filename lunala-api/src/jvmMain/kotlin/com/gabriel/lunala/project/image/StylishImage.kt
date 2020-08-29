@@ -14,7 +14,7 @@ data class StylishImage(val image: BufferedImage): Image {
         /**
          * @author https://stackoverflow.com/questions/13605248/java-converting-image-to-bufferedimage
          */
-        suspend operator fun invoke(image: java.awt.Image): BufferedImage? {
+        operator fun invoke(image: java.awt.Image): BufferedImage? {
             if (image is BufferedImage) return image
 
             // Create a buffered image with transparency

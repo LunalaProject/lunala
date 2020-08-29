@@ -5,6 +5,7 @@ import com.gabriel.lunala.project.entity.extra.Achievement
 import com.gabriel.lunala.project.table.LunalaAchievements
 import com.gabriel.lunala.project.utils.embed
 import com.gabriel.lunala.project.utils.message.LunaReply
+import com.gabriel.lunala.project.utils.toSnowflake
 import com.gitlab.kordlib.common.entity.Snowflake
 import com.gitlab.kordlib.core.Kord
 import com.gitlab.kordlib.core.behavior.channel.createMessage
@@ -22,7 +23,7 @@ import java.time.Instant
 class AchievementHandler: KoinComponent {
 
     suspend fun send(profile: Profile, channel: MessageChannel, achievement: Achievement) {
-        val user = get<Kord>().getUser(Snowflake(profile.idLong))
+        val user = get<Kord>().getUser(profile.idLong.toSnowflake())
                 ?: return
 
         val exists = transaction {
