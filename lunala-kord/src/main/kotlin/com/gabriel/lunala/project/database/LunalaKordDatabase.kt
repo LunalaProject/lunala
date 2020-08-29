@@ -16,7 +16,7 @@ class LunalaKordDatabase(
 
     lateinit var exposed: Database
 
-    override fun connect() {
+    override suspend fun connect() {
         val config = HikariConfig().apply {
             jdbcUrl = "jdbc:mysql://localhost:3306/lunalaDatabase?useTimezone=true&serverTimezone=UTC"
             driverClassName = "com.mysql.cj.jdbc.Driver"
