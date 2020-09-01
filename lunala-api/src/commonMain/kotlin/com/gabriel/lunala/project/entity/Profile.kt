@@ -1,6 +1,5 @@
 package com.gabriel.lunala.project.entity
 
-import com.gabriel.lunala.project.entity.extra.Planet
 import com.gabriel.lunala.project.utils.Mentionable
 
 interface Profile: Mentionable {
@@ -10,6 +9,5 @@ interface Profile: Mentionable {
 
     val idLong: Long
     val money: Long
-    val planet: Planet
 
 }

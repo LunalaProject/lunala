@@ -1,6 +1,5 @@
 package com.gabriel.lunala.project.creative
 
-import com.gabriel.lunala.project.assets.LunalaAssets
 import com.gabriel.lunala.project.image.Image
 
 /**

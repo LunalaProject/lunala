@@ -1,6 +1,5 @@
 package com.gabriel.lunala.project.entity
 
-import com.gabriel.lunala.project.entity.Server
 import com.gabriel.lunala.project.table.LunalaServers
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass

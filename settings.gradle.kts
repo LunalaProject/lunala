@@ -1,3 +1,3 @@
 rootProject.name = "Lunala"
 include("lunala-api")
-include("lunala-kord")
+include("lunala-jda")

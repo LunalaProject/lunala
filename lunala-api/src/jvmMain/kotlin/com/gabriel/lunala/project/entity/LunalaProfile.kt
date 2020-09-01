@@ -16,9 +16,5 @@ class LunalaProfile(id: EntityID<Long>): LongEntity(id), Profile, KoinComponent 
     override val idLong: Long = id.value
 
     override var money: Long by LunalaProfiles.money
-    override var planet: Planet
-        get() = get<PlanetManager>().planets.first {
-            it.name == LunalaProfiles.planet.getValue(this, LunalaProfile::planet) }
-        set(value) = LunalaProfiles.planet.setValue(this, LunalaProfile::planet, value.name)
 
 }
