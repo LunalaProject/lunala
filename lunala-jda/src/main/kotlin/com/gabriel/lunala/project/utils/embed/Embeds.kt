@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.time.temporal.TemporalAccessor
 
 @Suppress("unused")
-class LocalEmbedBuilder {
+class EmbedBuilderDSL {
 
     private var headerCallback: Header.() -> Unit = {}
     private var fieldSetCallback: FieldSet.() -> Unit = {}
@@ -19,7 +19,7 @@ class LocalEmbedBuilder {
         this.headerCallback = callback
     }
 
-    fun fieldSet(callback: FieldSet.() -> Unit) {
+    fun fieldset(callback: FieldSet.() -> Unit) {
         this.fieldSetCallback = callback
     }
 
@@ -117,8 +117,8 @@ class LocalEmbedBuilder {
 
 }
 
-fun embed(block: LocalEmbedBuilder.() -> Unit): MessageEmbed =
-        LocalEmbedBuilder().apply(block).build()
+fun embed(block: EmbedBuilderDSL.() -> Unit): MessageEmbed =
+        EmbedBuilderDSL().apply(block).build()
 
 fun EmbedBuilder.addFields(fields: Collection<MessageEmbed.Field>): Unit =
         fields.forEach { addField(it) }

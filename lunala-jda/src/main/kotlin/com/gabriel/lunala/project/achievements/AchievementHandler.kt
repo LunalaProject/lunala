@@ -51,7 +51,7 @@ class AchievementHandler: KoinComponent {
 
             }
 
-            fieldSet {
+            fieldset {
                 field {
                     name = ":paperclip: Name"
                     value = achievement.name

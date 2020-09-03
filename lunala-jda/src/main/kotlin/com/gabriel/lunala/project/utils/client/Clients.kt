@@ -5,6 +5,7 @@ import com.gabriel.lunala.project.event.ReactiveEventManager
 import com.gabriel.lunala.project.utils.message.DiscordReply
 import com.gabriel.lunala.project.utils.message.LunaReply
 import kotlinx.coroutines.*
+import kotlinx.coroutines.future.asDeferred
 import kotlinx.coroutines.future.await
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.MessageBuilder
@@ -15,9 +16,9 @@ import org.koin.core.get
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-suspend fun MessageChannel.sendMessage(reply: LunaReply): Message = this.sendMessage(
-    MessageBuilder(reply.format()).setEmbed((reply as? DiscordReply)?.embed?.build()).build()
-).submit().await()
+fun MessageChannel.sendMessage(reply: LunaReply): Deferred<Message> = this.sendMessage(
+    MessageBuilder(reply.format()).setEmbed((reply as? DiscordReply)?.embed).build()
+).submit().asDeferred()
 
 
 inline fun <reified T : GenericEvent> JDA.on(

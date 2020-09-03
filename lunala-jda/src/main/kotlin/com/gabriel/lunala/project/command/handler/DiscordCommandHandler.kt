@@ -61,6 +61,7 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdap
                 server = server,
                 args = args,
                 shard = shard,
+                client = event.jda,
                 message = event.message,
                 member = event.member!!,
                 guild = event.guild,

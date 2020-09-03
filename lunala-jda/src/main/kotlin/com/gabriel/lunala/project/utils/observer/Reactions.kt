@@ -30,11 +30,6 @@ object ReactionObserver: ListenerAdapter(), KoinComponent {
             emoji: String? = null,
             callback: suspend MessageReactionAddEvent.() -> Unit
     ): Job = flow.buffer(Channel.UNLIMITED).filter {
-
-        println("mensagem igual? ${message.idLong == it.messageIdLong}")
-        println("usuario igual? ${user == null || it.userId != user.id}")
-        println("emojo igual? ${emoji == null || it.reactionEmote.isEmoji && emoji != it.reactionEmote.asCodepoints}")
-
         (message.idLong == it.messageIdLong) && (user == null || it.userId != user.id) && (emoji == null || it.reactionEmote.isEmoji && emoji != it.reactionEmote.asCodepoints)
     }.onEach(callback).launchIn(scope)
 
