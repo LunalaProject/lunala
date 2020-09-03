@@ -1,7 +1,7 @@
 package com.gabriel.lunala.project.database
 
 import com.gabriel.lunala.project.Lunala
-import com.gabriel.lunala.project.utils.luna.standardTransaction
+import com.gabriel.lunala.project.utils.client.standardTransaction
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database

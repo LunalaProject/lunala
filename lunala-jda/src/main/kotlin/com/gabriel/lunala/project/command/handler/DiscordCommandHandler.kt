@@ -3,34 +3,27 @@ package com.gabriel.lunala.project.command.handler
 import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.exception.FailException
-import com.gabriel.lunala.project.utils.luna.getProfileOrCreate
-import com.gabriel.lunala.project.utils.luna.getServerOrCreate
+import com.gabriel.lunala.project.utils.client.sendMessage
+import com.gabriel.lunala.project.utils.client.getLunalaPermissions
+import com.gabriel.lunala.project.utils.client.getProfileOrCreate
+import com.gabriel.lunala.project.utils.client.getServerOrCreate
+import com.gabriel.lunala.project.utils.message.BlankReply
 import com.gabriel.lunala.project.utils.message.LunaReply
 import com.gabriel.lunala.project.utils.text.LevenshteinCalculator
 import kotlinx.coroutines.*
 import kotlinx.coroutines.future.await
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import net.dv8tion.jda.api.sharding.ShardManager
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.inject
 
-class DiscordCommandHandler(shardManager: ShardManager): CommandHandler<DiscordCommandContext>, ListenerAdapter(), KoinComponent {
+class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdapter(), KoinComponent {
 
     private val holder: CommandHolder by inject()
     private val lunala: Lunala by inject()
 
     private val scope: CoroutineScope by inject()
-
-    init {
-        shardManager.addEventListener(this)
-    }
-
-    override fun onMessageReceived(event: MessageReceivedEvent) {
-        println("kk")
-    }
 
     override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) = scope.launch {
         if (!event.message.contentRaw.startsWith(PREFIX)) return@launch
@@ -77,8 +70,8 @@ class DiscordCommandHandler(shardManager: ShardManager): CommandHandler<DiscordC
         Unit
     }
 
-    override suspend fun dispatch(context: DiscordCommandContext) = get<CoroutineScope>().launch {
-        val hasPermission = true
+    override suspend fun dispatch(context: DiscordCommandContext): Unit = get<CoroutineScope>().launch {
+        val hasPermission = context.member.getLunalaPermissions(context.channel).containsAll(context.shard.permissions)
 
         if (!hasPermission) {
             context.reply(LunaReply(
@@ -97,22 +90,22 @@ class DiscordCommandHandler(shardManager: ShardManager): CommandHandler<DiscordC
 
         exception.printStackTrace()
 
-        context.member.user.openPrivateChannel().submit().await().runCatching {
-            /**
-            createMessage(LunaReply(
-                    """B-beep boop! Apparently there was an error when you tried to execute the command `${context.label}`!
-                        
-                    `${exception.message}`
-                        
-                    Check if I have the correct permissions on your server, and try to execute the command
-                    one more time, and if the error persists, you can contact our administration team: discord.gg/Error404
+        val channel = context.member.user.runCatching {
+            openPrivateChannel().submit().await()
+        }.getOrNull() ?: return@launch
 
-                    Thank you for the attention! :wink:
-                    """.trimIndent()
-            ).format())
-            */
-        }
 
+        channel.sendMessage(BlankReply(
+            """B-beep boop! Apparently there was an error when you tried to execute the command `${context.label}`!
+                        
+            `${exception.message}`
+                        
+            Check if I have the correct permissions on your server, and try to execute the command
+            one more time, and if the error persists, you can contact our administration team: discord.gg/Error404
+
+            Thank you for the attention! :wink:
+            """.trimIndent()
+        ))
     }.run { Unit }
 
     private fun similarest(input: String): Command? = holder.commands.values.associateBy {

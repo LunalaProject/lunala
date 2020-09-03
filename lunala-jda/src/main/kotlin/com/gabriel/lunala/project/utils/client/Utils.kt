@@ -1,13 +1,12 @@
-package com.gabriel.lunala.project.utils.luna
+package com.gabriel.lunala.project.utils.client
 
 import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.database.LunalaDatabase
 import com.gabriel.lunala.project.database.LunalaDatabaseImpl
-import com.gabriel.lunala.project.entity.LunalaProfile
-import com.gabriel.lunala.project.entity.LunalaServer
 import com.gabriel.lunala.project.entity.Profile
 import com.gabriel.lunala.project.entity.Server
-import com.gabriel.lunala.project.entity.extra.Planet
+import com.gabriel.lunala.project.sql.LunalaProfile
+import com.gabriel.lunala.project.sql.LunalaServer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Transaction
@@ -20,9 +19,7 @@ fun Lunala.getProfile(snowflake: Long): Profile? = standardTransaction {
 }
 
 fun Lunala.getProfileOrCreate(snowflake: Long) = standardTransaction {
-    LunalaProfile.findById(snowflake) ?: LunalaProfile.new(snowflake) {
-        money = 0
-    }
+    LunalaProfile.findById(snowflake) ?: LunalaProfile.new(snowflake) {}
 }
 
 fun Lunala.getServer(snowflake: Long): Server? = standardTransaction {
@@ -30,9 +27,7 @@ fun Lunala.getServer(snowflake: Long): Server? = standardTransaction {
 }
 
 fun Lunala.getServerOrCreate(snowflake: Long): Server = standardTransaction {
-    LunalaServer.findById(snowflake) ?: LunalaServer.new(snowflake) {
-
-    }
+    LunalaServer.findById(snowflake) ?: LunalaServer.new(snowflake) {}
 }
 
 fun <T> Lunala.standardTransaction(

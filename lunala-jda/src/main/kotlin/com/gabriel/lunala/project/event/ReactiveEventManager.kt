@@ -30,7 +30,13 @@ class ReactiveEventManager(private val scope: CoroutineScope): IEventManager, Ko
     private val processor: FluxProcessor<GenericEvent, in GenericEvent> = Processors.multicast()
     private val scheduler = Schedulers.newSingle("Lunala EventManager", true)
 
-    private val sink = Sinks.multicast<GenericEvent>()
+    private val sink: SequenceSink<GenericEvent> = processor.sink()
+
+    override fun register(listener: Any) {
+        require(listener is EventListener)
+
+        on(GenericEvent::class.java).subscribe(listener::onEvent)
+    }
 
     override fun handle(event: GenericEvent): Unit = scope.launch {
         try {
@@ -44,20 +50,12 @@ class ReactiveEventManager(private val scope: CoroutineScope): IEventManager, Ko
         }
     }.run { Unit }
 
-    override fun register(listener: Any) {
-        require(listener is EventListener)
-
-        on(GenericEvent::class.java).subscribe(listener::onEvent)
-    }
-
-    fun <T : GenericEvent> on(event: Class<T>): Flux<T> {
-        return processor.publishOn(scheduler)
-                .log(Loggers.getLogger(LunalaJDA::class.java), Level.FINEST, true)
-                .ofType(event)
-    }
-
     override fun getRegisteredListeners(): MutableList<Any> =
             listeners.keys.toMutableList()
+
+    fun <T : GenericEvent> on(event: Class<T>): Flux<T> {
+        return processor.publishOn(scheduler).ofType(event)
+    }
 
     override fun unregister(listener: Any) {
         require(listener is EventListener)
@@ -65,6 +63,5 @@ class ReactiveEventManager(private val scope: CoroutineScope): IEventManager, Ko
         val disposable = listeners.remove(listener)
         disposable?.dispose()
     }
-
 
 }

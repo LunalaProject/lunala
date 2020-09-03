@@ -3,10 +3,10 @@ package com.gabriel.lunala.project.achievements
 import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.entity.Profile
 import com.gabriel.lunala.project.entity.extra.Achievement
-import com.gabriel.lunala.project.table.LunalaAchievements
-import com.gabriel.lunala.project.utils.client.reply
+import com.gabriel.lunala.project.sql.data.LunalaAchievements
+import com.gabriel.lunala.project.utils.client.sendMessage
 import com.gabriel.lunala.project.utils.embed.embed
-import com.gabriel.lunala.project.utils.luna.standardTransaction
+import com.gabriel.lunala.project.utils.client.standardTransaction
 import com.gabriel.lunala.project.utils.message.LunaReply
 import kotlinx.coroutines.future.await
 import net.dv8tion.jda.api.entities.MessageChannel
@@ -83,7 +83,7 @@ class AchievementHandler: KoinComponent {
         }
 
         kotlin.runCatching {
-            channel.reply(LunaReply(
+            channel.sendMessage(LunaReply(
                     ":tada:",
                     "won the achievement `${achievement.name}`, congratulations!",
                     mentionable = profile

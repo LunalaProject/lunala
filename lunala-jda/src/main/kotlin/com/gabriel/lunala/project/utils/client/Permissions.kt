@@ -1,5 +1,6 @@
-package com.gabriel.lunala.project.utils
+package com.gabriel.lunala.project.utils.client
 
+import com.gabriel.lunala.project.utils.LunalaPermission
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.GuildChannel
 import net.dv8tion.jda.api.entities.Member
@@ -80,6 +81,6 @@ object Permission {
 
 }
 
-fun Member.getLunalaPermissions(channel: GuildChannel): List<LunalaPermission> = com.gabriel.lunala.project.utils.Permission.ALL.filter {
+fun Member.getLunalaPermissions(channel: GuildChannel): List<LunalaPermission> = com.gabriel.lunala.project.utils.client.Permission.ALL.filter {
     this.getPermissions(channel).contains(Permission.valueOf(it.name))
 }

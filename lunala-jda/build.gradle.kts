@@ -23,9 +23,9 @@ dependencies {
     implementation("io.github.cdimascio:java-dotenv:5.2.1")
     implementation("mysql:mysql-connector-java:8.0.20")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.5")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.5")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.5")
 }
 
 tasks {

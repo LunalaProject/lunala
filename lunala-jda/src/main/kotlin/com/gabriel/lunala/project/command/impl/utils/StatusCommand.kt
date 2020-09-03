@@ -1,11 +1,9 @@
-package com.gabriel.lunala.project.command.impl.status
+package com.gabriel.lunala.project.command.impl.utils
 
 import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.api.command
 import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
-import com.gabriel.lunala.project.utils.message.LunaReply
-import com.gabriel.lunala.project.utils.message.dsl.onReaction
 
 class StatusCommand: SnapshotCommand {
 
@@ -20,13 +18,6 @@ class StatusCommand: SnapshotCommand {
 
         shard<DiscordCommandContext> {
 
-            reply(LunaReply(
-                    ":tada:",
-                    "Test"
-            )).onReaction(member.user) {
-                message.editMessage("Você clickou!").queue()
-                recycle()
-            }
         }
     }
 

@@ -1,13 +1,13 @@
 plugins {
     java
-    kotlin("jvm") version "1.3.70" apply false
+    kotlin("jvm") version "1.3.72" apply false
 }
 
 allprojects {
     plugins.apply("java")
 
     group = "com.gabriel.lunala.project"
-    version = "1.0-SNAPSHOT"
+    version = "1.0"
 
     repositories {
         mavenCentral()

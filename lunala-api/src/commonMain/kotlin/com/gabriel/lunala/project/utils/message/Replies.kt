@@ -13,11 +13,10 @@ open class LunaReply(
     open fun format(): String =
             "$prefix **|** ${mentionable?.asMention?.plus(" ").orEmpty()}$content"
 
-    companion object {
+}
 
-        operator fun invoke(content: String): LunaReply =
-                LunaReply("Empty", content)
+open class BlankReply(content: String): LunaReply("Empty", content) {
 
-    }
+    override fun format(): String = content
 
 }
