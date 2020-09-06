@@ -105,7 +105,7 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdap
             one more time, and if the error persists, you can contact our administration team: discord.gg/Error404
 
             Thank you for the attention! :wink:
-            """.trimIndent()
+            """.trimIndent().trim()
         ))
     }.run { Unit }
 

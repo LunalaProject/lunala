@@ -14,10 +14,11 @@ import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.koin.core.KoinComponent
+import org.koin.core.get
 import org.koin.core.inject
 
 @Suppress("EXPERIMENTAL_API_USAGE")
-object ReactionObserver: ListenerAdapter(), KoinComponent {
+class ReactionObserver: ListenerAdapter(), KoinComponent {
 
     private val channel = BroadcastChannel<MessageReactionAddEvent>(Channel.CONFLATED)
     private val flow = channel.asFlow()
@@ -45,4 +46,4 @@ fun Message.onReaction(
         user: User? = null,
         emoji: String? = null,
         callback: suspend MessageReactionAddEvent.() -> Unit
-): Job = ReactionObserver.on(this, user, emoji, callback)
+): Job = Lunala.get<ReactionObserver>().on(this, user, emoji, callback)

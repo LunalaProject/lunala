@@ -16,8 +16,10 @@ import org.koin.core.get
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-fun MessageChannel.sendMessage(reply: LunaReply): Deferred<Message> = this.sendMessage(
-    MessageBuilder(reply.format()).setEmbed((reply as? DiscordReply)?.embed).build()
+fun MessageChannel.sendMessage(vararg reply: LunaReply): Deferred<Message> = this.sendMessage(
+    MessageBuilder(reply.joinToString("\n") {
+        it.format()
+    }).setEmbed((reply as? DiscordReply)?.embed).build()
 ).submit().asDeferred()
 
 

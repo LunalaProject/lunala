@@ -26,6 +26,6 @@ class DiscordCommandContext constructor(
         val channel: TextChannel
 ) : CommandContext, KoinComponent {
 
-    suspend fun reply(reply: LunaReply): Message = channel.sendMessage(reply).await()
+    suspend fun reply(vararg reply: LunaReply): Message = channel.sendMessage(*reply).await()
 
 }
