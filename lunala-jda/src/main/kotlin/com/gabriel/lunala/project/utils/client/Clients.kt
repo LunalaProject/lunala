@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono
 fun MessageChannel.sendMessage(vararg reply: LunaReply): Deferred<Message> = this.sendMessage(
     MessageBuilder(reply.joinToString("\n") {
         it.format()
-    }).setEmbed((reply as? DiscordReply)?.embed).build()
+    }).setEmbed((reply.firstOrNull() as? DiscordReply)?.embed).build()
 ).submit().asDeferred()
 
 

@@ -10,6 +10,7 @@ import com.gabriel.lunala.project.sql.LunalaServers
 import com.gabriel.lunala.project.sql.data.LunalaAchievements
 import com.gabriel.lunala.project.utils.boot.registerCommands
 import com.gabriel.lunala.project.utils.boot.registerListeners
+import com.gabriel.lunala.project.utils.observer.ReactionObserver
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.coroutines.*
 import net.dv8tion.jda.api.OnlineStatus
@@ -30,6 +31,8 @@ class LunalaJDA(
     override fun start() {
         val logger = LoggerFactory.getLogger(Lunala::class.java)
 
+        logger.info("Booting Lunala in environment ${environment.name}!")
+
         val job = Job()
         val scope = CoroutineScope(Dispatchers.Unconfined + job)
 
@@ -43,12 +46,15 @@ class LunalaJDA(
         val holder: CommandHolder = DiscordCommandHolder()
         val handler: CommandHandler<DiscordCommandContext> = DiscordCommandHandler()
 
+        val observer = ReactionObserver()
+
         val modules = mutableListOf(module {
             single { database }
             single { handler }
             single { logger }
             single { holder }
             single { scope }
+            single { observer }
             single { manager }
             single<Job> { job }
             single<Lunala> { this@LunalaJDA }
@@ -70,6 +76,7 @@ class LunalaJDA(
     override fun stop() {
         val job: Job by inject()
         val logger: Logger by inject()
+        val holder: CommandHolder by inject()
         val manager: ShardManager by inject()
 
         logger.info("Received shutdown request to environment ${environment.name}.")
@@ -79,6 +86,8 @@ class LunalaJDA(
         job.cancel()
 
         logger.info("Disabling discord client")
+
+        holder.commands.clear()
 
         manager.setStatus(OnlineStatus.OFFLINE)
         manager.shutdown()

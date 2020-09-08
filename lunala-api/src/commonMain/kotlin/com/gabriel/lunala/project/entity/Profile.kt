@@ -1,6 +1,7 @@
 package com.gabriel.lunala.project.entity
 
 import com.gabriel.lunala.project.utils.Mentionable
+import com.gabriel.lunala.project.utils.flaging.Priority
 
 interface Profile: Mentionable {
 
@@ -9,5 +10,6 @@ interface Profile: Mentionable {
 
     val idLong: Long
     val money: Long
+    val priority: Priority
 
 }

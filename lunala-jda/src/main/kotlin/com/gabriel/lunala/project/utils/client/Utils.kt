@@ -38,4 +38,3 @@ suspend fun <T> Lunala.suspendedTransaction(
         context: CoroutineDispatcher = Dispatchers.Main,
         callback: suspend Transaction.() -> T
 ): T = newSuspendedTransaction(context = context, db = (Lunala.get<LunalaDatabase>() as LunalaDatabaseImpl).database, statement = callback)
-

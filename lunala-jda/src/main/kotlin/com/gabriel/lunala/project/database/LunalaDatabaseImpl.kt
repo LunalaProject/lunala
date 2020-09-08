@@ -28,7 +28,6 @@ class LunalaDatabaseImpl(
     }
 
     override suspend fun createTables() = lunala.standardTransaction {
-        SchemaUtils.drop(*tables.toTypedArray())
         SchemaUtils.createMissingTablesAndColumns(*tables.toTypedArray())
     }
 }

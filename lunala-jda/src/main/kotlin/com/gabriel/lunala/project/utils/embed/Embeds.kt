@@ -1,11 +1,16 @@
 package com.gabriel.lunala.project.utils.embed
 
+import com.gabriel.lunala.project.utils.EmbedDslMarker
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.User
 import java.awt.Color
 import java.time.LocalDateTime
 import java.time.temporal.TemporalAccessor
+
+@DslMarker
+@Retention(AnnotationRetention.BINARY)
+annotation class EmbedChildDSLMarker
 
 @Suppress("unused")
 class EmbedBuilderDSL {
@@ -15,18 +20,22 @@ class EmbedBuilderDSL {
     private var imagesCallback: Images.() -> Unit = {}
     private var footerCallback: Footer.() -> Unit = {}
 
+    @EmbedDslMarker
     fun header(callback: Header.() -> Unit) {
         this.headerCallback = callback
     }
 
+    @EmbedDslMarker
     fun fieldset(callback: FieldSet.() -> Unit) {
         this.fieldSetCallback = callback
     }
 
+    @EmbedDslMarker
     fun images(callback: Images.() -> Unit) {
         this.imagesCallback = callback
     }
 
+    @EmbedDslMarker
     fun footer(callback: Footer.() -> Unit) {
         this.footerCallback = callback
     }
@@ -59,14 +68,17 @@ class EmbedBuilderDSL {
         var title: String? = null
         var description: String? = null
 
+        @EmbedChildDSLMarker
         fun author(author: Author) {
             this.author = author
         }
 
+        @EmbedChildDSLMarker
         fun author(name: String, url: String, icon: String) {
             author(Author(name, url, icon))
         }
 
+        @EmbedChildDSLMarker
         fun author(user: User) {
             author("${user.asTag} (${user.idLong})", user.defaultAvatarUrl, user.effectiveAvatarUrl)
         }
@@ -79,14 +91,15 @@ class EmbedBuilderDSL {
 
         val fields: MutableSet<MessageEmbed.Field> = mutableSetOf()
 
+        @EmbedChildDSLMarker
         fun field(callback: Field.() -> Unit) {
             fields.add(Field().apply(callback).toJDA())
         }
 
         class Field {
 
-            var name: Any = "Kurama foof?"
-            var value: Any = "Sisi kurama mt foof uwu"
+            var name: Any = "Is Lunala cute?"
+            var value: Any = "Of course she is! uwu"
             var inline: Boolean = false
 
             fun toJDA(): MessageEmbed.Field =
@@ -117,6 +130,7 @@ class EmbedBuilderDSL {
 
 }
 
+@EmbedDslMarker
 fun embed(block: EmbedBuilderDSL.() -> Unit): MessageEmbed =
         EmbedBuilderDSL().apply(block).build()
 

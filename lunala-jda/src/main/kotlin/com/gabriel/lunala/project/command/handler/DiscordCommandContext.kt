@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.*
 import org.koin.core.KoinComponent
 
-class DiscordCommandContext constructor(
+data class DiscordCommandContext constructor(
         override val command: Command,
         override val label: String,
         override val profile: Profile,
