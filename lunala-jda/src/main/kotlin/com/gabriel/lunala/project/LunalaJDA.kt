@@ -13,13 +13,13 @@ import com.gabriel.lunala.project.sql.data.LunalaAchievements
 import com.gabriel.lunala.project.utils.boot.registerCommands
 import com.gabriel.lunala.project.utils.boot.registerListeners
 import com.gabriel.lunala.project.utils.observer.ReactionObserver
-import io.github.cdimascio.dotenv.dotenv
-import kotlinx.coroutines.*
-import kotlinx.serialization.SerialName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.dv8tion.jda.api.OnlineStatus
-import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
 import net.dv8tion.jda.api.sharding.ShardManager
 import org.koin.core.context.loadKoinModules

@@ -4,13 +4,10 @@ import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.emojis.Emote
 import com.gabriel.lunala.project.entity.Profile
 import com.gabriel.lunala.project.utils.client.sendMessage
-import com.gabriel.lunala.project.utils.client.standardTransaction
 import com.gabriel.lunala.project.utils.message.LunaReply
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.entities.TextChannel
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.util.concurrent.ThreadLocalRandom

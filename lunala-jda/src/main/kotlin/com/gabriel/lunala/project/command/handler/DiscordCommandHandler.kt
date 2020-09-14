@@ -1,19 +1,18 @@
 package com.gabriel.lunala.project.command.handler
 
 import com.gabriel.lunala.project.Lunala
-import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.exception.ExecutionException
 import com.gabriel.lunala.project.command.exception.FailException
 import com.gabriel.lunala.project.config.LunalaDiscordConfig
-import com.gabriel.lunala.project.utils.client.sendMessage
 import com.gabriel.lunala.project.utils.client.getLunalaPermissions
 import com.gabriel.lunala.project.utils.client.getProfileOrCreate
 import com.gabriel.lunala.project.utils.client.getServerOrCreate
+import com.gabriel.lunala.project.utils.client.sendMessage
 import com.gabriel.lunala.project.utils.flaging.role
 import com.gabriel.lunala.project.utils.message.LunaReply
-import com.gabriel.lunala.project.utils.text.LevenshteinCalculator
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.future.await
+import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.koin.core.KoinComponent

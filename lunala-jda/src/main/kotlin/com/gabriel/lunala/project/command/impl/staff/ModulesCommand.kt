@@ -1,9 +1,9 @@
 package com.gabriel.lunala.project.command.impl.staff
 
 import com.gabriel.lunala.project.command.Command
-import com.gabriel.lunala.project.command.utils.command
 import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
+import com.gabriel.lunala.project.command.utils.command
 import com.gabriel.lunala.project.emojis.Emote
 import com.gabriel.lunala.project.module.LunalaModuleController
 import com.gabriel.lunala.project.module.StandardModuleController

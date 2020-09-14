@@ -5,8 +5,8 @@ import com.gabriel.lunala.project.entity.Profile
 import com.gabriel.lunala.project.entity.extra.Achievement
 import com.gabriel.lunala.project.sql.data.LunalaAchievements
 import com.gabriel.lunala.project.utils.client.sendMessage
-import com.gabriel.lunala.project.utils.embed.embed
 import com.gabriel.lunala.project.utils.client.standardTransaction
+import com.gabriel.lunala.project.utils.embed.embed
 import com.gabriel.lunala.project.utils.message.LunaReply
 import kotlinx.coroutines.future.await
 import net.dv8tion.jda.api.entities.MessageChannel

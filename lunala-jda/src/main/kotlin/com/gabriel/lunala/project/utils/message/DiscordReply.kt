@@ -2,7 +2,6 @@ package com.gabriel.lunala.project.utils.message
 
 import com.gabriel.lunala.project.image.Image
 import com.gabriel.lunala.project.utils.Mentionable
-import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 
 class DiscordReply(

@@ -1,6 +1,5 @@
 package com.gabriel.lunala.project.entity
 
-import com.gabriel.lunala.project.entity.extra.Planet
 import com.gabriel.lunala.project.utils.Mentionable
 import com.gabriel.lunala.project.utils.flaging.Priority
 

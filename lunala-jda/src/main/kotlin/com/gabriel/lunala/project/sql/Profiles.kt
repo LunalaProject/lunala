@@ -1,7 +1,6 @@
 package com.gabriel.lunala.project.sql
 
 import com.gabriel.lunala.project.entity.Profile
-import com.gabriel.lunala.project.entity.extra.Planet
 import com.gabriel.lunala.project.utils.flaging.Priority
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass

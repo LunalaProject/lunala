@@ -2,7 +2,6 @@ package com.gabriel.lunala.project.module
 
 import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.command.Command
-import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
 import kotlinx.coroutines.Dispatchers
 import net.dv8tion.jda.api.hooks.EventListener
 import org.koin.core.context.loadKoinModules
