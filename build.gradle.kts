@@ -1,6 +1,6 @@
 plugins {
     java
-    kotlin("jvm") version "1.3.72" apply false
+    kotlin("jvm") version "1.4.0" apply false
 }
 
 allprojects {
@@ -13,6 +13,7 @@ allprojects {
         mavenCentral()
         jcenter()
 
+        maven("https://repo.spring.io/milestone")
         maven("https://dl.bintray.com/ekito/koin")
     }
 

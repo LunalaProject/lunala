@@ -12,15 +12,16 @@ import net.dv8tion.jda.api.MessageBuilder
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.GenericEvent
+import net.dv8tion.jda.api.requests.RestAction
 import org.koin.core.get
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-fun MessageChannel.sendMessage(vararg reply: LunaReply): Deferred<Message> = this.sendMessage(
+fun MessageChannel.sendMessage(vararg reply: LunaReply): RestAction<Message> = this.sendMessage(
     MessageBuilder(reply.joinToString("\n") {
         it.format()
     }).setEmbed((reply.firstOrNull() as? DiscordReply)?.embed).build()
-).submit().asDeferred()
+)
 
 
 inline fun <reified T : GenericEvent> JDA.on(

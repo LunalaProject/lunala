@@ -1,6 +1,7 @@
 package com.gabriel.lunala.project.sql
 
 import com.gabriel.lunala.project.entity.Profile
+import com.gabriel.lunala.project.entity.extra.Planet
 import com.gabriel.lunala.project.utils.flaging.Priority
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
@@ -11,7 +12,9 @@ import org.koin.core.KoinComponent
 object LunalaProfiles: LongIdTable() {
 
     val money = long("money").default(0)
+    val level = integer("level").default(1)
     val priority = enumeration("priority", Priority::class).default(Priority.LOW)
+    val tripulation = integer("tripulation").default(3)
 
 }
 
@@ -21,7 +24,9 @@ class LunalaProfile(id: EntityID<Long>): LongEntity(id), Profile, KoinComponent 
 
     override val idLong: Long = id.value
 
+    override var level: Int by LunalaProfiles.level
     override var money: Long by LunalaProfiles.money
     override var priority: Priority by LunalaProfiles.priority
+    override var tripulation: Int by LunalaProfiles.tripulation
 
 }

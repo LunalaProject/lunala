@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") apply true
+    kotlin("plugin.serialization") version "1.4.0"
 }
 
 group = "com.gabriel.lunala.project"
@@ -11,21 +12,19 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":lunala-api"))
 
-    implementation("org.jetbrains.kotlin:kotlin-compiler:1.3.72")
-    implementation("org.jetbrains.kotlin:kotlin-script-util:1.3.72")
+    api(project(":lunala-api"))
+    api("net.dv8tion:JDA:4.2.0_171")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
+
+    implementation("org.jetbrains.kotlin:kotlin-compiler:1.4.0")
+    implementation("org.jetbrains.kotlin:kotlin-script-util:1.4.0")
 
     implementation("io.projectreactor:reactor-core:3.4.0-M1")
 
-    implementation("net.dv8tion:JDA:4.2.0_171")
-
     implementation("io.github.cdimascio:java-dotenv:5.2.1")
     implementation("mysql:mysql-connector-java:8.0.20")
-
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.5")
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.5")
 }
 
 tasks {

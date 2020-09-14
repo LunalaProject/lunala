@@ -4,7 +4,7 @@ import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.exception.ExecutionException
 import com.gabriel.lunala.project.command.exception.FailException
-import com.gabriel.lunala.project.constants.LunalaConstants
+import com.gabriel.lunala.project.config.LunalaDiscordConfig
 import com.gabriel.lunala.project.utils.client.sendMessage
 import com.gabriel.lunala.project.utils.client.getLunalaPermissions
 import com.gabriel.lunala.project.utils.client.getProfileOrCreate
@@ -103,22 +103,21 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdap
             openPrivateChannel().submit().await()
         }.getOrNull() ?: return@launch
 
-        channel.sendMessage(LunaReply(prefix = "\uD83D\uDD37", content =
-        """B-beep boop! Apparently there was an error when you tried to execute the command `${context.label}`!
+        val configuration: LunalaDiscordConfig by inject()
+
+        channel.sendMessage(LunaReply(prefix = "\uD83D\uDD37", content = """
+                B-beep boop! Apparently there was an error when you tried to execute the command `${context.label}`!
                             
                 After some analyses, i figured out that the error was: `${exception::class.simpleName}: ${exception.message}`
                             
                 Check if I have the correct permissions on your server, and try to execute the command
-                one more time, and if the error persists, you can contact our administration team: ${LunalaConstants.DISCORD_INVITE}
+                one more time, and if the error persists, you can contact our administration team: ${configuration.discord}
     
-        Thank you for the attention! :wink:""".replace("   ", ""), mentionable = context.profile))
+                Thank you for the attention! :wink:
+        """.replace("   ", ""), mentionable = context.profile)).queue()
 
         throw ExecutionException(context, exception)
     }.run { Unit }
-
-    private fun mostSimilar(input: String): Command? = holder.commands.values.associateBy {
-        LevenshteinCalculator.levenshtein(input, it.labels[0])
-    }.maxBy { it.key }?.value
 
     companion object {
 

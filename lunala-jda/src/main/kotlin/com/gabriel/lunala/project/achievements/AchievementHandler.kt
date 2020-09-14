@@ -87,7 +87,7 @@ class AchievementHandler: KoinComponent {
                     ":tada:",
                     "won the achievement `${achievement.name}`, congratulations!",
                     mentionable = profile
-            ))
+            )).queue()
 
             user.openPrivateChannel().submit().await().sendMessage(message)
         }.exceptionOrNull()?.run {

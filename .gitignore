@@ -167,3 +167,5 @@ gradle-app.setting
 **/build/
 
 # End of https://www.toptal.com/developers/gitignore/api/kotlin,java,gradle,intellij+all,dotenv,git
+
+config.json

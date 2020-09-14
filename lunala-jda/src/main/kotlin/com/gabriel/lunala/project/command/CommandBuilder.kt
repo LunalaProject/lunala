@@ -1,7 +1,5 @@
-package com.gabriel.lunala.project.command.api
+package com.gabriel.lunala.project.command
 
-import com.gabriel.lunala.project.command.Command
-import com.gabriel.lunala.project.command.CommandContext
 import com.gabriel.lunala.project.command.snapshot.ShardCommand
 import com.gabriel.lunala.project.utils.CommandDslMarker
 import com.gabriel.lunala.project.utils.LunalaPermission

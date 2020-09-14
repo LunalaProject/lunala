@@ -12,7 +12,11 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
 
                 api("ch.qos.logback:logback-classic:0.9.26")
-                api("org.koin:koin-core:3.0.0-alpha-2")
+                api("org.koin:koin-core:3.0.0-alpha-4")
+
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.9")
             }
         }
         jvm().compilations["main"].defaultSourceSet {

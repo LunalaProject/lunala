@@ -1,13 +1,9 @@
 package com.gabriel.lunala.project
 
-import com.gabriel.lunala.project.environment.ClientEnvironment
+import com.gabriel.lunala.project.lifecycle.ILifecycle
 import org.koin.core.KoinComponent
 
-abstract class Lunala(val environment: ClientEnvironment) {
-
-    abstract fun start()
-
-    abstract fun stop()
+abstract class Lunala: ILifecycle {
 
     companion object: KoinComponent
 

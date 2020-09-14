@@ -1,5 +1,6 @@
 package com.gabriel.lunala.project.entity
 
+import com.gabriel.lunala.project.entity.extra.Planet
 import com.gabriel.lunala.project.utils.Mentionable
 import com.gabriel.lunala.project.utils.flaging.Priority
 
@@ -9,7 +10,10 @@ interface Profile: Mentionable {
         get() = "<@$idLong>"
 
     val idLong: Long
-    val money: Long
-    val priority: Priority
+
+    var level: Int
+    var money: Long
+    var tripulation: Int
+    var priority: Priority
 
 }

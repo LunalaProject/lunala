@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 
 package com.gabriel.lunala.project.utils.boot
 
@@ -9,6 +10,7 @@ import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.command.handler.DiscordCommandHandler
 import com.gabriel.lunala.project.command.impl.administration.QueryCommand
 import com.gabriel.lunala.project.command.impl.administration.RestartCommand
+import com.gabriel.lunala.project.command.impl.staff.ModulesCommand
 import com.gabriel.lunala.project.command.impl.utils.StatusCommand
 import com.gabriel.lunala.project.utils.observer.ReactionObserver
 import net.dv8tion.jda.api.sharding.ShardManager
@@ -28,6 +30,7 @@ internal fun LunalaJDA.registerCommands() = holder.let {
     it.register(StatusCommand())
     it.register(QueryCommand())
     it.register(RestartCommand())
+    it.register(ModulesCommand())
 }
 
 internal fun LunalaJDA.registerListeners() = manager.let {

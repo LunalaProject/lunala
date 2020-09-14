@@ -17,7 +17,7 @@ class LunalaDatabaseImpl(
 
     override suspend fun connect() {
         val config = HikariConfig().apply {
-            jdbcUrl = "jdbc:mysql://localhost:3306/lunalaDatabase?useTimezone=true&serverTimezone=UTC"
+            jdbcUrl = "jdbc:mysql://localhost:3306/test?useTimezone=true&serverTimezone=UTC"
             driverClassName = "com.mysql.cj.jdbc.Driver"
             username = "root"
             password = ""

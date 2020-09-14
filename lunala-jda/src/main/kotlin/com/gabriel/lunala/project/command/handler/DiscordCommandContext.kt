@@ -7,6 +7,7 @@ import com.gabriel.lunala.project.entity.Profile
 import com.gabriel.lunala.project.entity.Server
 import com.gabriel.lunala.project.utils.client.sendMessage
 import com.gabriel.lunala.project.utils.message.LunaReply
+import kotlinx.coroutines.future.await
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.*
 import org.koin.core.KoinComponent
@@ -26,6 +27,6 @@ data class DiscordCommandContext constructor(
         val channel: TextChannel
 ) : CommandContext, KoinComponent {
 
-    suspend fun reply(vararg reply: LunaReply): Message = channel.sendMessage(*reply).await()
+    suspend fun reply(vararg reply: LunaReply): Message = channel.sendMessage(*reply).submit().await()
 
 }
