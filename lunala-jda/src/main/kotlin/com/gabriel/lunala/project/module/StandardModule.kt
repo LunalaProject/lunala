@@ -12,10 +12,9 @@ import kotlin.coroutines.CoroutineContext
 
 open class StandardModule(
         name: String,
-        lunala: Lunala,
         enabled: Boolean = false,
         coroutineContext: CoroutineContext = Dispatchers.Default
-): LunalaModule(name, lunala, enabled, coroutineContext) {
+): LunalaModule(name, enabled, coroutineContext) {
 
     internal val commands = mutableSetOf<Command>()
     internal val listeners = mutableListOf<EventListener>()

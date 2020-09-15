@@ -23,6 +23,8 @@ dependencies {
 
     implementation("io.projectreactor:reactor-core:3.4.0-M1")
 
+    implementation("io.github.rybalkinsd:kohttp:0.12.0")
+
     implementation("io.github.cdimascio:java-dotenv:5.2.1")
     implementation("mysql:mysql-connector-java:8.0.20")
 }

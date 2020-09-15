@@ -1,5 +1,6 @@
 package com.gabriel.lunala.project.route
 
+import com.gabriel.lunala.project.BattlesModule
 import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.emojis.Emote
 import com.gabriel.lunala.project.entity.Profile
@@ -21,8 +22,10 @@ import kotlin.random.Random
 
 class DefaultBattleRoute: BattleRoute, KoinComponent {
 
-    private val scope: CoroutineScope by inject()
     private val lunala: Lunala by inject()
+    private val scope: CoroutineScope by inject()
+
+    private val module: BattlesModule by inject()
 
     override suspend fun init(profile: Profile, member: Member, channel: TextChannel) {
         channel.sendMessage(LunaReply(
@@ -31,8 +34,7 @@ class DefaultBattleRoute: BattleRoute, KoinComponent {
                 profile
         )).queue()
 
-        // TODO (profile.tripulation * 0.7).let { Random.nextDouble(it / 2.1, it * 2).toInt() }
-        val enemies = 2
+        val enemies = (profile.tripulation * 0.7).let { Random.nextDouble(it / 2, it * 2).toInt() }
         val won = chance(((profile.tripulation - enemies) + ThreadLocalRandom.current().nextInt(5, 20) ) * 3).or(true)
 
         delay(5000L)
@@ -42,16 +44,12 @@ class DefaultBattleRoute: BattleRoute, KoinComponent {
                 profile.tripulation = ((enemies * 0.3).roundToInt())
             }
 
-            val pendingJobs = mutableListOf<Job>()
-
             channel.sendMessage(LunaReply("${Emote.Check}", "Congratulations! You won a battle against **$enemies** aliens, do you want to recruit them to your tripulation or kill and sell their heads?", profile)).submit().await().also {
                 it.addReaction("\uD83D\uDE80").queue()
                 it.addReaction("⚔️").queue()
 
-                pendingJobs.add(it.onReaction(member.user) {
+                val task = it.onReaction(member.user) {
                     if (reactionEmote.isEmote) return@onReaction
-
-                    println("Codepoints: ${reactionEmote.asCodepoints}")
 
                     if (reactionEmote.asCodepoints == "U+1f680") {
                         channel.sendMessage(LunaReply(":rocket:", "You recruited **${enemies * 0.3}** aliens to your tripulation, now it has **${profile.tripulation}** members!", profile)).queue()
@@ -66,9 +64,9 @@ class DefaultBattleRoute: BattleRoute, KoinComponent {
                             profile.money += coins
                         }
                     }
+                }
 
-                    pendingJobs.forEach { it.cancel() }
-                })
+                module.tasks.add(task)
             }
         } else {
             lunala.standardTransaction {

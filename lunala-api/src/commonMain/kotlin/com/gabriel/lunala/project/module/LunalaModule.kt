@@ -13,7 +13,6 @@ import kotlin.jvm.JvmOverloads
 
 abstract class LunalaModule @JvmOverloads constructor(
         val name: String,
-        val lunala: Lunala,
         var enabled: Boolean = false,
         override val coroutineContext: CoroutineContext = Dispatchers.Default
 ): ILifecycle, CoroutineScope, KoinComponent {
