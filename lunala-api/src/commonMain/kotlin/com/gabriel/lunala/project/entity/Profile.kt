@@ -12,7 +12,8 @@ interface Profile: Mentionable {
 
     var level: Int
     var money: Long
-    var tripulation: Int
     var priority: Priority
+    var tripulation: Int
+    var travelingTime: Long?
 
 }

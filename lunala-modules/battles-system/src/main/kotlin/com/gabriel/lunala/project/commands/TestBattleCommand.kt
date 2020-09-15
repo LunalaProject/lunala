@@ -11,7 +11,7 @@ class TestBattleCommand: SnapshotCommand {
 
     override fun create(): Command = command("samplebattle") {
         shard<DiscordCommandContext>(priority = Priority.SEVERE) {
-            DefaultBattleRoute().init(profile, channel)
+            DefaultBattleRoute().init(profile, member, channel)
         }
     }
 

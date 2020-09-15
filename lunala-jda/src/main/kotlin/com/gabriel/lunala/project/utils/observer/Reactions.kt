@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.jetbrains.kotlin.fir.PrimitiveTypes.Long
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.inject
@@ -29,7 +30,7 @@ class ReactionObserver: ListenerAdapter(), KoinComponent {
             emoji: String? = null,
             callback: suspend MessageReactionAddEvent.() -> Unit
     ): Job = flow.buffer(Channel.UNLIMITED).filter {
-        (message.idLong == it.messageIdLong) && (user == null || it.userId != user.id) && (emoji == null || it.reactionEmote.isEmoji && emoji != it.reactionEmote.asCodepoints)
+        (message.idLong == it.messageIdLong) && (user == null || it.userIdLong == user.idLong) && (emoji == null || it.reactionEmote.isEmoji && emoji != it.reactionEmote.asCodepoints)
     }.onEach(callback).launchIn(scope)
 
     override fun onMessageReactionAdd(event: MessageReactionAddEvent): Unit = scope.launch {
