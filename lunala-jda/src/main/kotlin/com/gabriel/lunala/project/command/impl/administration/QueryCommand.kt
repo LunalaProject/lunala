@@ -7,6 +7,7 @@ import com.gabriel.lunala.project.command.utils.command
 import com.gabriel.lunala.project.utils.api.color
 import com.gabriel.lunala.project.utils.api.emote
 import com.gabriel.lunala.project.utils.embed.embed
+import com.gabriel.lunala.project.utils.flaging.Priority
 import com.gabriel.lunala.project.utils.message.DiscordReply
 import com.gabriel.lunala.project.utils.state.State
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -14,7 +15,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class QueryCommand: SnapshotCommand {
 
     override fun create(): Command = command("query") {
-        shard<DiscordCommandContext> {
+        shard<DiscordCommandContext>(priority = Priority.SEVERE) {
             val time = System.currentTimeMillis()
             val result = kotlin.runCatching {
                 transaction {
