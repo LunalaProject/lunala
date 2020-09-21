@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import org.jetbrains.kotlin.fir.PrimitiveTypes.Long
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.inject

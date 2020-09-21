@@ -9,7 +9,6 @@ import com.gabriel.lunala.project.utils.client.standardTransaction
 import com.gabriel.lunala.project.utils.message.LunaReply
 import com.gabriel.lunala.project.utils.observer.onReaction
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.future.await
 import net.dv8tion.jda.api.entities.Member

@@ -1,5 +1,7 @@
 package com.gabriel.lunala.project.event
 
+import com.gabriel.lunala.project.utils.events.EventHolder
+import com.gabriel.lunala.project.utils.events.toListener
 import kotlinx.coroutines.CoroutineScope
 import net.dv8tion.jda.api.events.ExceptionEvent
 import net.dv8tion.jda.api.events.GenericEvent
@@ -12,6 +14,7 @@ import reactor.core.publisher.FluxProcessor
 import reactor.core.publisher.Processors
 import reactor.core.publisher.SequenceSink
 import reactor.core.scheduler.Schedulers
+import java.security.InvalidParameterException
 
 /*
  * Thanks @MinnDevelopment!
@@ -27,9 +30,9 @@ class ReactiveEventManager(private val scope: CoroutineScope): IEventManager, Ko
 
     private val sink: SequenceSink<GenericEvent> = processor.sink()
 
-    override fun register(listener: Any) {
-        listeners[(listener as? EventListener?) ?: return] = on(GenericEvent::class.java).subscribe(((listener as? EventListener) ?: return)::onEvent)
-    }
+    override fun register(listener: Any) = try {
+        listeners[validateListener(listener)] = on(GenericEvent::class.java).subscribe(validateListener(listener)::onEvent)
+    } catch (exception: InvalidParameterException) {}
 
     override fun handle(event: GenericEvent) {
         kotlin.runCatching {
@@ -45,7 +48,14 @@ class ReactiveEventManager(private val scope: CoroutineScope): IEventManager, Ko
     fun <T : GenericEvent> on(event: Class<T>): Flux<T> =
         processor.publishOn(scheduler).ofType(event)
 
-    override fun unregister(listener: Any) =
-        listeners.remove(listener as? EventListener)?.dispose().run { Unit }
+    override fun unregister(listener: Any) = try {
+        listeners.remove(validateListener(listener))?.dispose().run { Unit }
+    } catch (exception: InvalidParameterException) {}
+
+    private fun validateListener(listener: Any) = when (listener) {
+        is EventListener -> listener
+        is EventHolder -> listener.toListener()
+        else -> throw InvalidParameterException()
+    }
 
 }

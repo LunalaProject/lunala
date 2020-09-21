@@ -37,20 +37,20 @@ class StandardModuleController: LunalaModuleController, KoinComponent {
 
         modules[module.name] = module
 
-        if (module is StandardModule && module.file != null) moduleFiles[module.name] = module.file!!
+        if (module is DiscordModule && module.file != null) moduleFiles[module.name] = module.file!!
 
         runCatching {
             module.onStart()
         }.onSuccess {
-            if (module is StandardModule) {
-                module.commands.forEach {
-                    holder.commands[it.labels] = it
-                }
+            module.commands.forEach {
+                holder.commands[it.labels] = it
+            }
+
+            if (module is DiscordModule) {
                 module.listeners.forEach {
                     manager.register(it)
                 }
             }
-
             module.enabled = true
             logger.info("Success enabled module ${module.name}")
         }.onFailure {
@@ -78,7 +78,7 @@ class StandardModuleController: LunalaModuleController, KoinComponent {
 
         val klass = Class.forName(description.primary, true, loader)
 
-        return@runCatching (klass.getConstructor(String::class.java, Lunala::class.java).newInstance(description.name, lunala) as LunalaModule).also { (it as? StandardModule)?.file = file }
+        return@runCatching (klass.getConstructor(String::class.java, Lunala::class.java).newInstance(description.name, lunala) as LunalaModule).also { (it as? DiscordModule)?.file = file }
     }.onFailure { it.printStackTrace() }.getOrNull()
 
     override fun unload(module: LunalaModule) {
@@ -92,13 +92,11 @@ class StandardModuleController: LunalaModuleController, KoinComponent {
                 it.cancel()
             }
         }.onSuccess {
-            if (module is StandardModule) {
-                module.commands.forEach {
-                    holder.commands.remove(it.labels, it)
-                }
-                module.listeners.forEach {
-                    manager.unregister(it)
-                }
+            module.commands.forEach {
+                holder.commands.remove(it.labels, it)
+            }
+            module.listeners.forEach {
+                manager.unregister(it)
             }
         }
     }
