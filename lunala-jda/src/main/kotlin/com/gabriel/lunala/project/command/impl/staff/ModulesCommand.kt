@@ -6,14 +6,14 @@ import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
 import com.gabriel.lunala.project.command.utils.command
 import com.gabriel.lunala.project.emojis.Emote
 import com.gabriel.lunala.project.module.LunalaModuleController
-import com.gabriel.lunala.project.module.StandardModuleController
+import com.gabriel.lunala.project.module.DiscordModuleController
 import com.gabriel.lunala.project.utils.flaging.Priority
 import com.gabriel.lunala.project.utils.message.LunaReply
 import org.koin.core.get
 
 class ModulesCommand: SnapshotCommand {
 
-    val controller: StandardModuleController = get<LunalaModuleController>() as StandardModuleController
+    val controller: DiscordModuleController = get<LunalaModuleController>() as DiscordModuleController
 
     override fun create(): Command = command("modules", "module") {
         shard<DiscordCommandContext>(priority = Priority.MODERATED) {

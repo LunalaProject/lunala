@@ -9,6 +9,7 @@ data class LunalaDiscordConfig(
         val github: String,
         val website: String,
         val discord: String,
+        val discordId: Long,
         val repository: String,
         val environment: ClientEnvironment,
 )

@@ -6,7 +6,7 @@ import com.gabriel.lunala.project.database.LunalaDatabase
 import com.gabriel.lunala.project.database.LunalaDatabaseImpl
 import com.gabriel.lunala.project.event.ReactiveEventManager
 import com.gabriel.lunala.project.module.LunalaModuleController
-import com.gabriel.lunala.project.module.StandardModuleController
+import com.gabriel.lunala.project.module.DiscordModuleController
 import com.gabriel.lunala.project.sql.LunalaProfiles
 import com.gabriel.lunala.project.sql.LunalaServers
 import com.gabriel.lunala.project.sql.data.LunalaAchievements
@@ -82,7 +82,7 @@ class LunalaJDA: Lunala() {
             modules(modules)
         }
 
-        val controller = StandardModuleController()
+        val controller = DiscordModuleController()
 
         loadKoinModules(module {
             single<LunalaModuleController> { controller }

@@ -6,9 +6,5 @@ import kotlin.coroutines.CoroutineContext
 
 open class DiscordModule(
         name: String,
-        enabled: Boolean = false,
-        coroutineContext: CoroutineContext = Dispatchers.Default,
-        internal var file: File? = null
-): LunalaModule(name, enabled, coroutineContext) {
-
-}
+        val file: File
+): LunalaModule(name, false, Dispatchers.Default)

@@ -96,7 +96,7 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdap
             callback.invoke(context)
         }.exceptionOrNull() ?: return@launch
 
-        if (exception is FailException) exception.callback()
+        if (exception is FailException) return@launch exception.callback()
 
         val channel = context.member.user.runCatching {
             openPrivateChannel().submit().await()

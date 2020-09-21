@@ -18,7 +18,7 @@ import java.net.URLClassLoader
 import java.util.jar.JarFile
 
 // Heavy Reference on Loritta's Plugin System
-class StandardModuleController: LunalaModuleController, KoinComponent {
+class DiscordModuleController: LunalaModuleController, KoinComponent {
 
     private val lunala: Lunala by inject()
     private val logger: Logger by inject()
@@ -46,11 +46,10 @@ class StandardModuleController: LunalaModuleController, KoinComponent {
                 holder.commands[it.labels] = it
             }
 
-            if (module is DiscordModule) {
-                module.listeners.forEach {
-                    manager.register(it)
-                }
+            module.listeners.forEach {
+                manager.register(it)
             }
+
             module.enabled = true
             logger.info("Success enabled module ${module.name}")
         }.onFailure {
@@ -78,7 +77,7 @@ class StandardModuleController: LunalaModuleController, KoinComponent {
 
         val klass = Class.forName(description.primary, true, loader)
 
-        return@runCatching (klass.getConstructor(String::class.java, Lunala::class.java).newInstance(description.name, lunala) as LunalaModule).also { (it as? DiscordModule)?.file = file }
+        return@runCatching (klass.getConstructor(String::class.java, File::class.java).newInstance(description.name, file) as LunalaModule)
     }.onFailure { it.printStackTrace() }.getOrNull()
 
     override fun unload(module: LunalaModule) {
