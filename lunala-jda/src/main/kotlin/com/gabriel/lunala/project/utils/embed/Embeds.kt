@@ -91,7 +91,6 @@ class EmbedBuilderDSL {
 
         val fields: MutableSet<MessageEmbed.Field> = mutableSetOf()
 
-        @EmbedChildDSLMarker
         fun field(callback: Field.() -> Unit) {
             fields.add(Field().apply(callback).toJDA())
         }

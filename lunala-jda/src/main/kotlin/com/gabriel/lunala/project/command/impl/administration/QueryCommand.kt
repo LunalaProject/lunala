@@ -4,6 +4,8 @@ import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
 import com.gabriel.lunala.project.command.utils.command
+import com.gabriel.lunala.project.command.utils.explain
+import com.gabriel.lunala.project.command.utils.fail
 import com.gabriel.lunala.project.utils.api.color
 import com.gabriel.lunala.project.utils.api.emote
 import com.gabriel.lunala.project.utils.embed.embed
@@ -19,11 +21,15 @@ class QueryCommand: SnapshotCommand {
             "Execute a update at the"
         }
 
-        examples {
-            listOf("UPDATE lunalaProfiles SET x=20 WHERE id=360162870069166080")
+        example {
+            "UPDATE lunalaProfiles SET x=20 WHERE id=360162870069166080"
         }
 
         shard<DiscordCommandContext>(priority = Priority.SEVERE) {
+            if (args.isEmpty()) fail {
+                explain()
+            }
+
             val time = System.currentTimeMillis()
             val result = kotlin.runCatching {
                 transaction {

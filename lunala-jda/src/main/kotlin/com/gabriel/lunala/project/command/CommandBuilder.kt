@@ -10,7 +10,7 @@ class CommandBuilder(private val labels: List<String>) {
     val shards = mutableMapOf<List<String>, ShardCommand>()
 
     private var descriptionCallback: () -> String = { "My ultra cool description!" }
-    private var examplesCallback: () -> List<String> = { listOf("") }
+    private var exampleCallback: () -> String = { labels[0] }
 
     @Suppress("unchecked_cast")
     @CommandDslMarker
@@ -18,18 +18,20 @@ class CommandBuilder(private val labels: List<String>) {
         shards[labels.toList()] = ShardCommand(labels.toList(), priority, permissions, callback as suspend CommandContext.() -> Unit)
     }
 
+    @CommandDslMarker
     fun description(callback: () -> String) {
         descriptionCallback = callback
     }
 
-    fun examples(callback: () -> List<String>) {
-        examplesCallback = callback
+    @CommandDslMarker
+    fun example(callback: () -> String) {
+        exampleCallback = callback
     }
 
     fun create(): Command = Command(
             labels,
             descriptionCallback(),
-            examplesCallback(),
+            exampleCallback(),
             shards
     )
 

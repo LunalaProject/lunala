@@ -4,6 +4,7 @@ import com.gabriel.lunala.project.command.Command
 import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
 import com.gabriel.lunala.project.command.utils.command
+import com.gabriel.lunala.project.command.utils.fail
 import com.gabriel.lunala.project.emojis.Emote
 import com.gabriel.lunala.project.module.LunalaModuleController
 import com.gabriel.lunala.project.module.DiscordModuleController
@@ -41,7 +42,7 @@ class ModulesCommand: SnapshotCommand {
         }
 
         shard<DiscordCommandContext>("enable", priority = Priority.SEVERE) {
-            val module = controller.parse(args.getOrNull(0)) ?: return@shard
+            val module = controller.parse(args.getOrNull(0)) ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `>modules` to se all my active modules/")
 
             if (module.enabled) {
                 reply(LunaReply(
@@ -62,7 +63,7 @@ class ModulesCommand: SnapshotCommand {
         }
 
         shard<DiscordCommandContext>("reload", priority = Priority.MODERATED) {
-            val module = controller.parse(args.getOrNull(0)) ?: return@shard
+            val module = controller.parse(args.getOrNull(0)) ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `>modules` to se all my active modules/")
 
             controller.unload(module)
             controller.load(module)
@@ -75,7 +76,7 @@ class ModulesCommand: SnapshotCommand {
         }
 
         shard<DiscordCommandContext>("disable", priority = Priority.SEVERE) {
-            val module = controller.modules[args.getOrNull(0)] ?: return@shard
+            val module = controller.modules[args.getOrNull(0)] ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `>modules` to se all my active modules/")
 
             if (!module.enabled) {
                 reply(LunaReply(

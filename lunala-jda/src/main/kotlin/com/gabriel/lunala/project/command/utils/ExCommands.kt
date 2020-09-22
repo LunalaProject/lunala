@@ -7,6 +7,7 @@ import com.gabriel.lunala.project.command.exception.FailException
 import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.utils.CommandDslMarker
 import com.gabriel.lunala.project.utils.Mentionable
+import com.gabriel.lunala.project.utils.commands.HelpImageHandler
 import com.gabriel.lunala.project.utils.message.LunaReply
 
 @CommandDslMarker
@@ -19,3 +20,5 @@ fun CommandContext.fail(callback: suspend () -> Unit): Nothing =
 fun DiscordCommandContext.fail(prefix: String, message: String, target: Mentionable? = null): Nothing = throw FailException(this) {
     reply(LunaReply(prefix, message, target))
 }
+
+suspend fun DiscordCommandContext.explain() = HelpImageHandler.send(this)

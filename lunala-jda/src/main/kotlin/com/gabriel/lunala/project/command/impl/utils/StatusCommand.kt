@@ -17,10 +17,6 @@ class StatusCommand: SnapshotCommand {
             "See bot's status"
         }
 
-        examples {
-            emptyList()
-        }
-
         shard<DiscordCommandContext> {
             val runtime = Runtime.getRuntime()
             val restPing = client.restPing.submit().await()

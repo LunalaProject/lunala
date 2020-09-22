@@ -3,11 +3,13 @@ package com.gabriel.lunala.project.command.handler
 import com.gabriel.lunala.project.Lunala
 import com.gabriel.lunala.project.command.exception.ExecutionException
 import com.gabriel.lunala.project.command.exception.FailException
+import com.gabriel.lunala.project.command.utils.explain
 import com.gabriel.lunala.project.config.LunalaDiscordConfig
 import com.gabriel.lunala.project.utils.client.getLunalaPermissions
 import com.gabriel.lunala.project.utils.client.getProfileOrCreate
 import com.gabriel.lunala.project.utils.client.getServerOrCreate
 import com.gabriel.lunala.project.utils.client.sendMessage
+import com.gabriel.lunala.project.utils.commands.HelpImageHandler
 import com.gabriel.lunala.project.utils.embed.embed
 import com.gabriel.lunala.project.utils.flaging.role
 import com.gabriel.lunala.project.utils.message.DiscordReply
@@ -95,15 +97,9 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdap
             return@launch
         }
 
-        /*if (context.args.size == 1 && context.args[0] == "\uD83E\uDD37") {
-            context.reply(DiscordReply(mentionable = context.profile) {
-                header {
-                    title = "\uD83E\uDE90 About Command"
-                    description = ""
-                }
-
-            })
-        }*/
+        if (context.args.size == 1 && context.args[0] == "\uD83E\uDD37") {
+            return@launch context.explain()
+        }
 
         val exception: Throwable = context.shard.runCatching {
             callback.invoke(context)
