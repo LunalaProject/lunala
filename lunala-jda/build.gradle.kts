@@ -17,6 +17,7 @@ dependencies {
     api("net.dv8tion:JDA:4.2.0_171")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.0.0-RC")
 
     implementation("org.jetbrains.kotlin:kotlin-compiler:1.4.0")
     implementation("org.jetbrains.kotlin:kotlin-script-util:1.4.0")

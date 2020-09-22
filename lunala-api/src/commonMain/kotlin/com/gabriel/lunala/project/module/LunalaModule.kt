@@ -13,7 +13,6 @@ import kotlin.jvm.JvmOverloads
 
 abstract class LunalaModule @JvmOverloads constructor(
         val name: String,
-        var enabled: Boolean = false,
         override val coroutineContext: CoroutineContext = Dispatchers.Default
 ): ILifecycle, CoroutineScope, KoinComponent {
 
@@ -22,5 +21,7 @@ abstract class LunalaModule @JvmOverloads constructor(
 
     val commands = mutableSetOf<Command>()
     val listeners = mutableSetOf<EventHolder>()
+
+    var enabled: Boolean = false
 
 }

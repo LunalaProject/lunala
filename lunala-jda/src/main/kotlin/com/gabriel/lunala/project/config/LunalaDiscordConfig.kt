@@ -5,11 +5,22 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LunalaDiscordConfig(
-        val token: String,
-        val github: String,
-        val website: String,
-        val discord: String,
-        val discordId: Long,
-        val repository: String,
-        val environment: ClientEnvironment,
-)
+        val general: GeneralConfigSection,
+        val discord: DiscordConfigSection
+) {
+
+    @Serializable
+    data class GeneralConfigSection(
+            val website: String,
+            val repository: String,
+            val environment: ClientEnvironment
+    )
+
+    @Serializable
+    data class DiscordConfigSection(
+            val token: String,
+            val discord: String,
+            val discordId: String
+    )
+
+}

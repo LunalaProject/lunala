@@ -40,13 +40,13 @@ class EmbedBuilderDSL {
         this.footerCallback = callback
     }
 
-    fun build(): MessageEmbed {
+    fun build(): MessageEmbed = EmbedBuilder().also {
         val header = Header().apply(headerCallback)
         val fields = FieldSet().apply(fieldSetCallback)
         val images = Images().apply(imagesCallback)
         val footer = Footer().apply(footerCallback)
 
-        return EmbedBuilder().also {
+        run {
             it.setTitle(header.title)
             it.setDescription(header.description)
             it.setAuthor(header.author?.name, header.author?.url, header.author?.icon)
@@ -59,8 +59,8 @@ class EmbedBuilderDSL {
 
             it.setFooter(footer.text, footer.icon)
             it.setTimestamp(footer.timestamp)
-        }.build()
-    }
+        }
+    }.build()
 
     class Header {
 

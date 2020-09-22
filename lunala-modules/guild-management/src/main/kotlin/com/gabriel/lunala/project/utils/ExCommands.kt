@@ -10,7 +10,7 @@ import org.koin.core.inject
 private val config: LunalaDiscordConfig by Lunala.inject()
 
 fun CommandBuilder.local(block: suspend DiscordCommandContext.() -> Unit) = shard<DiscordCommandContext> {
-    if (guild.idLong == config.discordId) {
+    if (guild.id == config.discord.discordId) {
         block.invoke(this)
     }
 }

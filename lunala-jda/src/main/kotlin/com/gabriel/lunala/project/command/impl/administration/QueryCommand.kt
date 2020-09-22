@@ -15,6 +15,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class QueryCommand: SnapshotCommand {
 
     override fun create(): Command = command("query") {
+        description {
+            "Execute a update at the"
+        }
+
+        examples {
+            listOf("UPDATE lunalaProfiles SET x=20 WHERE id=360162870069166080")
+        }
+
         shard<DiscordCommandContext>(priority = Priority.SEVERE) {
             val time = System.currentTimeMillis()
             val result = kotlin.runCatching {

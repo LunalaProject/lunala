@@ -8,7 +8,9 @@ import com.gabriel.lunala.project.utils.client.getLunalaPermissions
 import com.gabriel.lunala.project.utils.client.getProfileOrCreate
 import com.gabriel.lunala.project.utils.client.getServerOrCreate
 import com.gabriel.lunala.project.utils.client.sendMessage
+import com.gabriel.lunala.project.utils.embed.embed
 import com.gabriel.lunala.project.utils.flaging.role
+import com.gabriel.lunala.project.utils.message.DiscordReply
 import com.gabriel.lunala.project.utils.message.LunaReply
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.future.await
@@ -18,6 +20,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.koin.core.KoinComponent
 import org.koin.core.get
 import org.koin.core.inject
+import java.awt.Color
 
 class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdapter(), KoinComponent {
 
@@ -91,6 +94,16 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdap
             ))
             return@launch
         }
+
+        /*if (context.args.size == 1 && context.args[0] == "\uD83E\uDD37") {
+            context.reply(DiscordReply(mentionable = context.profile) {
+                header {
+                    title = "\uD83E\uDE90 About Command"
+                    description = ""
+                }
+
+            })
+        }*/
 
         val exception: Throwable = context.shard.runCatching {
             callback.invoke(context)

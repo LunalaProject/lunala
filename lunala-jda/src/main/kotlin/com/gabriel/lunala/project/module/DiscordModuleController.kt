@@ -30,14 +30,14 @@ class DiscordModuleController: LunalaModuleController, KoinComponent {
 
     val modules: MutableMap<String, LunalaModule> = mutableMapOf()
     val moduleFiles: MutableMap<String, File> = mutableMapOf()
-    val files = File(config.repository + "/modules").also { it.mkdirs() }.listFiles()!!
+    val files = File(config.general.repository + "/modules").also { it.mkdirs() }.listFiles()!!
 
     override fun load(module: LunalaModule) {
-        logger.info("Now loading module ${module.name} at environment ${config.environment.name}")
+        logger.info("Now loading module ${module.name} at environment ${config.general.environment.name}")
 
         modules[module.name] = module
 
-        if (module is DiscordModule && module.file != null) moduleFiles[module.name] = module.file!!
+        if (module is DiscordModule) moduleFiles[module.name] = module.file
 
         runCatching {
             module.onStart()
@@ -81,7 +81,7 @@ class DiscordModuleController: LunalaModuleController, KoinComponent {
     }.onFailure { it.printStackTrace() }.getOrNull()
 
     override fun unload(module: LunalaModule) {
-        logger.info("Now disabling module ${module.name} at ${config.environment.name}")
+        logger.info("Now disabling module ${module.name} at ${config.general.environment.name}")
 
         module.enabled = false
 
