@@ -39,9 +39,9 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.system.exitProcess
 
+@Suppress("experimental_api_usage")
 class LunalaJDA: Lunala() {
 
-    @ExperimentalSerializationApi
     override fun onStart() {
         val logger = LoggerFactory.getLogger(Lunala::class.java)
 
@@ -58,7 +58,7 @@ class LunalaJDA: Lunala() {
 
         logger.info("Booting Lunala in environment ${configuration.general.environment.name}!")
 
-        logger.info("Booting with configs: ${configuration}")
+        logger.info("Booting with configs: $configuration")
 
         val job = Job()
         val scope = CoroutineScope(Dispatchers.Unconfined + job)
