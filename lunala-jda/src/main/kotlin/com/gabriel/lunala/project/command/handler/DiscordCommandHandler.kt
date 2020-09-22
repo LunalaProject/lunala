@@ -26,26 +26,26 @@ import java.awt.Color
 
 class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdapter(), KoinComponent {
 
-    private val holder: CommandHolder by inject()
     private val lunala: Lunala by inject()
+    private val holder: CommandHolder by inject()
 
     private val scope: CoroutineScope by inject()
+    private val config: LunalaDiscordConfig by inject()
 
     override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) = scope.launch {
-        if (!event.message.contentRaw.startsWith(PREFIX)) return@launch
-        if (event.message.contentRaw.length == PREFIX.length) return@launch
+        if (!event.message.contentRaw.startsWith(config.discord.prefix)) return@launch
+        if (event.message.contentRaw.length == config.discord.prefix.length) return@launch
 
         val content = event.message.contentRaw
-                .substring(PREFIX.length)
+                .substring(config.discord.prefix.length)
                 .trim()
                 .split(" ")
 
         val args = content.drop(1).toMutableList()
 
-        val command = get<CommandHolder>().commands.filter {
+        val command = holder.commands.filter {
             it.key.contains(content.firstOrNull()?.toLowerCase())
-        }.map { it.value }.firstOrNull()
-                ?: return@launch
+        }.map { it.value }.firstOrNull() ?: return@launch
 
         val shard = command.shards.filter {
             it.key.contains(content.drop(1).getOrNull(0)?.toLowerCase())
@@ -126,11 +126,5 @@ class DiscordCommandHandler: CommandHandler<DiscordCommandContext>, ListenerAdap
 
         throw ExecutionException(context, exception)
     }.run { Unit }
-
-    companion object {
-
-        const val PREFIX = ">"
-
-    }
 
 }

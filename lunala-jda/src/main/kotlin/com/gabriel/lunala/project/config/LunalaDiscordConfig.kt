@@ -19,6 +19,7 @@ data class LunalaDiscordConfig(
     @Serializable
     data class DiscordConfigSection(
             val token: String,
+            val prefix: String,
             val discord: String,
             val discordId: String
     )

@@ -5,16 +5,19 @@ import com.gabriel.lunala.project.command.handler.DiscordCommandContext
 import com.gabriel.lunala.project.command.snapshot.SnapshotCommand
 import com.gabriel.lunala.project.command.utils.command
 import com.gabriel.lunala.project.command.utils.fail
+import com.gabriel.lunala.project.config.LunalaDiscordConfig
 import com.gabriel.lunala.project.emojis.Emote
 import com.gabriel.lunala.project.module.LunalaModuleController
 import com.gabriel.lunala.project.module.DiscordModuleController
 import com.gabriel.lunala.project.utils.flaging.Priority
 import com.gabriel.lunala.project.utils.message.LunaReply
 import org.koin.core.get
+import org.koin.core.inject
 
 class ModulesCommand: SnapshotCommand {
 
-    val controller: DiscordModuleController = get<LunalaModuleController>() as DiscordModuleController
+    private val config: LunalaDiscordConfig by inject()
+    private val controller: DiscordModuleController = get<LunalaModuleController>() as DiscordModuleController
 
     override fun create(): Command = command("modules", "module") {
         shard<DiscordCommandContext>(priority = Priority.MODERATED) {
@@ -42,7 +45,7 @@ class ModulesCommand: SnapshotCommand {
         }
 
         shard<DiscordCommandContext>("enable", priority = Priority.SEVERE) {
-            val module = controller.parse(args.getOrNull(0)) ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `>modules` to se all my active modules/")
+            val module = controller.parse(args.getOrNull(0)) ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `${config.discord.prefix}modules` to se all my active modules/")
 
             if (module.enabled) {
                 reply(LunaReply(
@@ -63,7 +66,7 @@ class ModulesCommand: SnapshotCommand {
         }
 
         shard<DiscordCommandContext>("reload", priority = Priority.MODERATED) {
-            val module = controller.parse(args.getOrNull(0)) ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `>modules` to se all my active modules/")
+            val module = controller.parse(args.getOrNull(0)) ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `${config.discord.prefix}modules` to se all my active modules/")
 
             controller.unload(module)
             controller.load(module)
@@ -76,7 +79,7 @@ class ModulesCommand: SnapshotCommand {
         }
 
         shard<DiscordCommandContext>("disable", priority = Priority.SEVERE) {
-            val module = controller.modules[args.getOrNull(0)] ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `>modules` to se all my active modules/")
+            val module = controller.modules[args.getOrNull(0)] ?: fail("${Emote.Warn}", "The selected module couldn't be found, try using `${config.discord.prefix}modules` to se all my active modules/")
 
             if (!module.enabled) {
                 reply(LunaReply(

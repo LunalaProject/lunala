@@ -1,9 +1,0 @@
-{
-  "token": "YOUR_BOT_TOKEN",
-  "github": "https://github.com/LunalaProject/Lunala",
-  "discord": "LUNALA_DISCORD",
-  "discordId": "LUNALA_DISCORD_ID",
-  "website": "LUNALA_WEBSITE",
-  "repository": "PATH_TO_ASSETS",
-  "environment": "STABLE"
-}
