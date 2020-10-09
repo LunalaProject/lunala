@@ -59,7 +59,7 @@ class LunalaJDA: Lunala() {
 
         val manager = DefaultShardManagerBuilder.createDefault(configuration.discord.token).apply {
             setShardsTotal(1)
-            setEventManagerProvider { ReactiveEventManager(scope) }
+            setEventManagerProvider { ReactiveEventManager() }
         }.build()
 
         val database: LunalaDatabase = LunalaDatabaseImpl(this, listOf(LunalaProfiles, LunalaServers, LunalaAchievements))
