@@ -1,7 +1,7 @@
 package com.gabriel.lunala.project.module
 
 import com.gabriel.lunala.project.command.Command
-import com.gabriel.lunala.project.lifecycle.ILifecycle
+import com.gabriel.lunala.project.utils.lifecycle.ILifecycle
 import com.gabriel.lunala.project.utils.events.EventHolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

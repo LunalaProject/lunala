@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
-class DefaultBattleRoute: BattleRoute, KoinComponent {
+class DefaultBattleHandler: BattleHandler, KoinComponent {
 
     private val lunala: Lunala by inject()
     private val scope: CoroutineScope by inject()
@@ -76,6 +76,6 @@ class DefaultBattleRoute: BattleRoute, KoinComponent {
     }
 
     private fun chance(int: Int): Boolean =
-            ThreadLocalRandom.current().nextInt(100) < int
+            ThreadLocalRandom.current().nextInt(100) < int1
 
 }

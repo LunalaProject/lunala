@@ -1,4 +1,4 @@
-package com.gabriel.lunala.project.lifecycle
+package com.gabriel.lunala.project.utils.lifecycle
 
 interface ILifecycle {
 

@@ -7,6 +7,8 @@ interface CommandHolder {
 
     val commands: MutableMap<List<String>, Command>
 
+    fun register(command: Command)
+
     fun register(command: SnapshotCommand)
 
 }

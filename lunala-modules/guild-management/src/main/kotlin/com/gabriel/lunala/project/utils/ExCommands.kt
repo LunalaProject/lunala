@@ -11,6 +11,6 @@ private val config: LunalaDiscordConfig by Lunala.inject()
 
 fun CommandBuilder.local(block: suspend DiscordCommandContext.() -> Unit) = shard<DiscordCommandContext> {
     if (guild.id == config.discord.discordId) {
-        block.invoke(this)
+        block()
     }
 }

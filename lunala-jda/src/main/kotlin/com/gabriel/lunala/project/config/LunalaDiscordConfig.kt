@@ -1,6 +1,6 @@
 package com.gabriel.lunala.project.config
 
-import com.gabriel.lunala.project.environment.ClientEnvironment
+import com.gabriel.lunala.project.utils.ClientEnvironment
 import kotlinx.serialization.Serializable
 
 @Serializable

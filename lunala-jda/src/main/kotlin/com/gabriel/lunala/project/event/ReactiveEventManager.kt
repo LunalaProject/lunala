@@ -1,9 +1,9 @@
 package com.gabriel.lunala.project.event
 
 import com.gabriel.lunala.project.utils.events.EventHolder
+import com.gabriel.lunala.project.utils.events.LunalaEventManager
 import com.gabriel.lunala.project.utils.events.toListener
-import kotlinx.coroutines.CoroutineScope
-import net.dv8tion.jda.api.events.ExceptionEvent
+    import net.dv8tion.jda.api.events.ExceptionEvent
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.hooks.EventListener
 import net.dv8tion.jda.api.hooks.IEventManager
@@ -21,7 +21,7 @@ import java.security.InvalidParameterException
  * @author https://github.com/MinnDevelopment/jda-reactor
  */
 @Suppress("EXPERIMENTAL_API_USAGE")
-class ReactiveEventManager(private val scope: CoroutineScope): IEventManager, KoinComponent {
+class ReactiveEventManager: IEventManager, LunalaEventManager, KoinComponent {
 
     private val listeners = mutableMapOf<EventListener, Disposable>()
 

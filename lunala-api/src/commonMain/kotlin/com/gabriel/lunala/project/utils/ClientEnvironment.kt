@@ -1,4 +1,4 @@
-package com.gabriel.lunala.project.environment
+package com.gabriel.lunala.project.utils
 
 enum class ClientEnvironment {
 

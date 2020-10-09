@@ -13,7 +13,6 @@ class BattlesModule(name: String, file: File) : DiscordModule(name, file) {
         loadKoinModules(module {
             single { this@BattlesModule }
         })
-
         registerCommands(TestBattleCommand().create())
     }
 
