@@ -76,6 +76,6 @@ class DefaultBattleHandler: BattleHandler, KoinComponent {
     }
 
     private fun chance(int: Int): Boolean =
-            ThreadLocalRandom.current().nextInt(100) < int1
+            ThreadLocalRandom.current().nextInt(100) < int
 
 }
