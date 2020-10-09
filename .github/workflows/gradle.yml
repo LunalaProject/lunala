@@ -5,7 +5,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ master, actions ]
+    branches: [ master, actions, development ]
     
 jobs:
   build:
@@ -27,13 +27,21 @@ jobs:
       run: ./gradlew build --stacktrace > logs.txt 2>logErrors.txt
 
     - uses: actions/upload-artifact@v2
+      name: Upload Lunala-API
+      with:
+       name: LunalaAPI
+       path: lunala-api/build/libs/
+
+    - uses: actions/upload-artifact@v2
       name: Upload Lunala-JDA
       with:
-        path: lunala-jda/build/libs/lunala-jda-1.0-SNAPSHOT.jar
+       name: LunalaJDA
+       path: lunala-jda/build/libs/
 
     - uses: actions/upload-artifact@v2
       name: Upload Lunala-Modules
       with:
-        path: lunala-modules/*/build/libs/*.jar
+       name: LunalaModules
+       path: lunala-modules/*/build/libs/*.jar
 
 
