@@ -1,11 +1,11 @@
 package com.gabriel.lunala.project
 
 import arrow.Kind
-import mu.KLogger
+import com.gabriel.lunala.project.util.LunalaDiscordConfig
 
 interface LunalaService<F> {
 
-    val logger: KLogger
+    val config: LunalaDiscordConfig
 
     fun start(): Kind<F, Unit>
 

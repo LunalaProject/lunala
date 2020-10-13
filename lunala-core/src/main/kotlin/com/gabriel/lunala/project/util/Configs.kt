@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.gabriel.lunala.project.util
 
 import arrow.fx.IO
@@ -7,23 +9,18 @@ import com.typesafe.config.ConfigFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.hocon.Hocon
 import kotlinx.serialization.hocon.decodeFromConfig
+import org.slf4j.Logger
 import java.io.File
 
-@OptIn(ExperimentalSerializationApi::class)
-fun <A> LunalaService<A>.getDecodedConfig(): IO<LunalaDiscordConfig> = inspectConfig().map {
-    Hocon.decodeFromConfig(ConfigFactory.parseFile(it))
-}
-
-fun <A> LunalaService<A>.inspectConfig(): IO<File> = IO.fx {
-    val file = File("config.conf")
+fun inspect(fileName: String, createIfNotExists: Boolean = true): IO<File> = IO.fx {
+    val file = File(fileName)
 
     if (file.exists().not()) {
-        logger.info { "Config file was not found! Killing process and creating one." }
-
-        file.createNewFile()
-        file.writeBytes(LunalaService::class.java.getResourceAsStream("/config.conf").readAllBytes())
-
-        throw ConfigInspectionException("Config file not found")
+        if (createIfNotExists) {
+            file.createNewFile()
+            file.writeBytes(LunalaService::class.java.getResourceAsStream("/$fileName").readAllBytes())
+        }
+        throw ConfigInspectionException("File $fileName was required but not found.")
     }
 
     file
