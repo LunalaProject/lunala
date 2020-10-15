@@ -9,8 +9,8 @@ allprojects {
     version = "1.0"
 
     repositories {
-        mavenCentral()
         jcenter()
+        mavenCentral()
     }
 
     dependencies {

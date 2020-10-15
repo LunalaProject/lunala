@@ -1,6 +1,7 @@
 package com.gabriel.lunala.project
 
 import arrow.Kind
+import com.gabriel.lunala.project.locale.LocaleWrapper
 import com.gabriel.lunala.project.util.LunalaDiscordConfig
 
 interface LunalaService<F> {

@@ -1,7 +1,12 @@
 package com.gabriel.lunala.project.entity
 
-interface Profile {
+import com.gabriel.lunala.project.util.MentionAware
 
-    val id: Long
+interface Profile: MentionAware {
+
+    val idLong: Long
+    var coins: Long
+
+    override fun mention(): String = "<@$idLong>"
 
 }

@@ -9,12 +9,12 @@ import kotlinx.serialization.hocon.Hocon
 import kotlinx.serialization.hocon.decodeFromConfig
 
 @OptIn(ExperimentalSerializationApi::class)
-fun main() {
+suspend fun main() {
     val configIo: IO<LunalaDiscordConfig> = inspect("config.conf").map {
         Hocon.decodeFromConfig(ConfigFactory.parseFile(it))
     }
 
     IO.fx {
-        SingleLunalaService(configIo.not()).start()
-    }
+        SingleLunalaService(configIo.not()).start().attempt().not()
+    }.attempt().suspended()
 }
