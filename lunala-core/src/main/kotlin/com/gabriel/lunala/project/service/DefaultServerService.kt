@@ -4,18 +4,18 @@ import arrow.fx.IO
 import com.gabriel.lunala.project.entity.LunalaServer
 import com.gabriel.lunala.project.entity.Server
 import com.gabriel.lunala.project.util.ServerService
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class DefaultServerService: ServerService {
 
     override fun findById(id: Long): IO<Server> = IO {
-        transaction {
+        newSuspendedTransaction {
             LunalaServer.findById(id) ?: error("Could not find user with id $id.")
         }
     }
 
     override fun findOrCreateById(id: Long): IO<Server> = IO {
-        transaction {
+        newSuspendedTransaction {
             LunalaServer.findById(id) ?: LunalaServer.new(id) {}
         }
     }

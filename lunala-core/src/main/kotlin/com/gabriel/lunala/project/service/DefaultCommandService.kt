@@ -29,7 +29,6 @@ class DefaultCommandService(private val cluster: LunalaCluster, private val serv
     }
 
     override fun stop(): Kind<ForIO, Unit> = IO {
-        repository
         commandsJob?.cancel()
     }
 

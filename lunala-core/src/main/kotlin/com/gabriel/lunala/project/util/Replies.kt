@@ -1,5 +1,10 @@
 package com.gabriel.lunala.project.util
 
+import arrow.Kind
+import arrow.fx.ForIO
+import arrow.fx.IO
+import arrow.fx.extensions.io.async.async
+import arrow.fx.typeclasses.Async
 import com.gitlab.kordlib.core.behavior.channel.MessageChannelBehavior
 import com.gitlab.kordlib.core.behavior.channel.createMessage
 import com.gitlab.kordlib.core.entity.Message
@@ -24,12 +29,6 @@ class ReplyDSL {
         replies.add(LunalaEmbeddableReply(":large_blue_diamond:", "", replies.isEmpty()).apply(reply))
     }
 
-    fun embed(embed: EmbedBuilder.() -> Unit) {
-        append {
-            this.embed = EmbedBuilder().apply(embed)
-        }
-    }
-
     fun compile(target: MentionAware?) = MessageCreateBuilder().apply {
         content = replies.joinToString("\n") { it.compile(target) }
         embed = replies.map { (it as? LunalaEmbeddableReply)?.embed }.firstOrNull()
@@ -37,16 +36,14 @@ class ReplyDSL {
 
 }
 
-suspend fun MessageChannelBehavior.reply(target: MentionAware? = null, reply: ReplyDSL): Message = createMessage {
-    reply.compile(target).let {
-        content = it.content
-        embed = it.embed
+fun <F> MessageChannelBehavior.reply(async: Async<F>, target: MentionAware? = null, reply: ReplyDSL): Kind<F, Message> = async.effect {
+    createMessage {
+        reply.compile(target).let {
+            content = it.content
+            embed = it.embed
+        }
     }
 }
 
-suspend fun MessageChannelBehavior.reply(target: MentionAware? = null, builder: ReplyDSL.() -> Unit): Message =
-    reply(target, ReplyDSL().apply(builder))
-
-fun LunalaReply.toDsl() = ReplyDSL().also {
-    it.replies.add(this)
-}
+fun MessageChannelBehavior.reply(target: MentionAware? = null, builder: ReplyDSL.() -> Unit): Kind<ForIO, Message> =
+    reply(IO.async(), target, ReplyDSL().apply(builder))

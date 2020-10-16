@@ -4,6 +4,7 @@ import arrow.Kind
 import arrow.fx.ForIO
 import arrow.fx.IO
 import com.gabriel.lunala.project.util.LunalaExperimental
+import kotlinx.coroutines.CoroutineScope
 
 interface LocaleWrapper {
 

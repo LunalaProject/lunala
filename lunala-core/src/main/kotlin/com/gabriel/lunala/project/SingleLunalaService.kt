@@ -5,6 +5,7 @@ import arrow.core.toT
 import arrow.fx.ForIO
 import arrow.fx.IO
 import arrow.fx.extensions.fx
+import arrow.typeclasses.Monad
 import com.gabriel.lunala.project.locale.DefaultLocaleRepository
 import com.gabriel.lunala.project.platform.LunalaCluster
 import com.gabriel.lunala.project.service.DefaultCommandService
@@ -16,10 +17,10 @@ import mu.KLogger
 import mu.toKLogger
 import org.slf4j.LoggerFactory
 
-class SingleLunalaService(override val config: LunalaDiscordConfig): LunalaService<ForIO> {
+class SingleLunalaService<F>(override val config: LunalaDiscordConfig, MF: Monad<F>): LunalaService<ForIO>, Monad<F> by MF {
 
-    val logger: KLogger = LoggerFactory.getLogger(LunalaService::class.java).toKLogger()
-    val cluster: LunalaCluster = LunalaCluster(config, logger)
+    private val logger: KLogger = LoggerFactory.getLogger(LunalaService::class.java).toKLogger()
+    private val cluster: LunalaCluster = LunalaCluster(config, logger)
 
     override fun start(): Kind<ForIO, Unit> = IO.fx {
         cluster.prepare().bind()
@@ -37,6 +38,6 @@ class SingleLunalaService(override val config: LunalaDiscordConfig): LunalaServi
     }
 
     override fun stop(): Kind<ForIO, Unit> = IO {
-
+        cluster.client.shutdown()
     }
 }

@@ -20,6 +20,8 @@ allprojects {
         implementation("ch.qos.logback:logback-classic:1.2.3")
         implementation("io.github.microutils:kotlin-logging:1.12.0")
 
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0-M1")
+
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.0.0-RC")

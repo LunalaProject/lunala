@@ -1,5 +1,7 @@
 package com.gabriel.lunala.project.command
 
+import arrow.fx.IO
+import arrow.fx.extensions.fx
 import com.gabriel.lunala.project.entity.Profile
 import com.gabriel.lunala.project.entity.Server
 import com.gabriel.lunala.project.locale.LocaleWrapper
@@ -27,9 +29,6 @@ class DiscordCommandContext(
 
     val locale: LocaleWrapper = server.getLocale()
 
-    suspend fun reply(vararg reply: LunalaReply) = channel.reply(profile) { replies.addAll(reply) }
-
-    suspend fun reply(dsl: ReplyDSL.() -> Unit) = channel.reply(profile, dsl)
-
+    suspend fun reply(dsl: ReplyDSL.() -> Unit) = IO.fx { channel.reply(profile, dsl).bind() }.attempt().suspended()
 
 }

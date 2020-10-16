@@ -141,4 +141,4 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/gradle,intellij+all,kotlin
 
-config.conf
+./config.conf
