@@ -31,7 +31,7 @@ class ReplyDSL {
     }
 
     fun compile(target: MentionAware?) = MessageCreateBuilder().apply {
-        content = replies.joinToString { it.compile(target) }
+        content = replies.joinToString("\n") { it.compile(target) }
         embed = replies.map { (it as? LunalaEmbeddableReply)?.embed }.firstOrNull()
     }
 

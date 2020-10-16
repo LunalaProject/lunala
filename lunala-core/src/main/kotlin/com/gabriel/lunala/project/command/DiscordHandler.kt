@@ -2,11 +2,13 @@ package com.gabriel.lunala.project.command
 
 import arrow.Kind
 import arrow.core.Tuple2
+import arrow.core.Tuple3
 import arrow.fx.ForIO
 import arrow.fx.IO
 import arrow.fx.extensions.fx
 import arrow.fx.extensions.io.applicativeError.attempt
 import com.gabriel.lunala.project.platform.LunalaCluster
+import com.gabriel.lunala.project.service.CommandService
 import com.gabriel.lunala.project.util.ProfileService
 import com.gabriel.lunala.project.util.ServerService
 import com.gitlab.kordlib.core.entity.channel.TextChannel
@@ -16,7 +18,7 @@ import java.nio.file.WatchEvent
 
 class DiscordCommandHandler(
     private val cluster: LunalaCluster,
-    private val services: Tuple2<ProfileService, ServerService>
+    private val services: Tuple3<ProfileService, ServerService, CommandService>
 ) {
 
     suspend fun setup() = cluster.client.on<MessageCreateEvent> {
@@ -27,7 +29,7 @@ class DiscordCommandHandler(
 
         val content = message.content.substring(PREFIX.length).trim().split(" ")
 
-        val base = CommandRepository.retrieveWithAliases(content.firstOrNull() ?: return@on) ?: return@on
+        val base = services.c.repository.retrieveWithAliases(content.firstOrNull() ?: return@on) ?: return@on
         val command = getCommandDSL(content) ?: return@on
 
         val args = breakArgs(base, command, content.drop(1).toMutableList())
@@ -51,7 +53,7 @@ class DiscordCommandHandler(
     }
 
     private fun getCommandDSL(content: List<String>): CommandDSL<*>? {
-        val command = CommandRepository.retrieve(content.firstOrNull() ?: return null) ?: return null
+        val command = services.c.repository.retrieve(content.firstOrNull() ?: return null) ?: return null
         var subcommand: CommandDSL<*> = command
 
         for (argument in content.drop(1)) {

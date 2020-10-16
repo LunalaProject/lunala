@@ -10,7 +10,6 @@ interface LocaleWrapper {
     val id: String
     val entries: MutableMap<String, String>
 
-    @LunalaExperimental
     operator fun get(key: String, vararg placeholders: String): String
 
 }

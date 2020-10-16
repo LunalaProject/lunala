@@ -1,8 +1,6 @@
 package com.gabriel.lunala.project.command
 
-object CommandRepository {
-
-    val commands: MutableMap<String, CommandDSL<*>> = mutableMapOf()
+class CommandRepository(val commands: MutableMap<String, CommandDSL<*>> = mutableMapOf()) {
 
     fun register(command: CommandDSL<*>) {
         commands[command.name] = command

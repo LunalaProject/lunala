@@ -7,7 +7,7 @@ import com.gitlab.kordlib.core.Kord
 import com.gitlab.kordlib.core.supplier.EntitySupplyStrategy
 import mu.KLogger
 
-class LunalaCluster constructor(private val config: LunalaDiscordConfig, private val logger: KLogger) {
+class LunalaCluster constructor(val config: LunalaDiscordConfig, val logger: KLogger) {
 
     lateinit var client: Kord
 

@@ -40,7 +40,7 @@ class DescriptionDSL(val entries: MutableList<String> = mutableListOf()) {
 
 enum class CommandCategory {
 
-    MISC,
+    MISCELLANEOUS,
     UTILS;
 
 }

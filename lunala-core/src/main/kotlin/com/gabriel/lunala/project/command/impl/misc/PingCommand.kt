@@ -1,4 +1,4 @@
-package com.gabriel.lunala.project.command.impl
+package com.gabriel.lunala.project.command.impl.misc
 
 import com.gabriel.lunala.project.command.CommandCategory
 import com.gabriel.lunala.project.command.DiscordCommandContext
@@ -10,23 +10,21 @@ import kotlin.time.ExperimentalTime
 
 class PingCommand {
 
-    fun setup() {
-        command("ping", category = CommandCategory.MISC) {
-            description {
-                + it["commands.misc.ping.description"]
-            }
+    fun create() = command("ping", category = CommandCategory.MISCELLANEOUS) {
+        description {
+            +it["commands.misc.ping.description"]
+        }
 
-            trigger {
-                reply {
-                    append {
-                        embed = getStatusEmbed()
-                    }
+        trigger {
+            reply {
+                append {
+                    embed = getStatusEmbed()
                 }
             }
         }
     }
 
-    @OptIn(ExperimentalTime::class, LunalaExperimental::class)
+    @OptIn(ExperimentalTime::class)
     private fun DiscordCommandContext.getStatusEmbed() = embed {
         title = "\uD83C\uDFD3 Lunala Status"
         color = Color(0, 128, 255)

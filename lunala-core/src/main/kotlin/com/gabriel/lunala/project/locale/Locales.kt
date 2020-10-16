@@ -5,6 +5,7 @@ import arrow.fx.ForIO
 import arrow.fx.IO
 import arrow.fx.extensions.fx
 import com.gabriel.lunala.project.LunalaService
+import com.gabriel.lunala.project.util.adequatelyFormat
 import org.yaml.snakeyaml.Yaml
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -13,7 +14,7 @@ class DefaultLocaleWrapper(override val id: String): LocaleWrapper {
 
     override val entries: MutableMap<String, String> = mutableMapOf()
 
-    override fun get(key: String, vararg placeholders: String): String = entries[key]?.format(placeholders) ?: "{MISSING_LOCALES}"
+    override fun get(key: String, vararg placeholders: String): String = entries[key]?.adequatelyFormat(*placeholders) ?: "{MISSING_LOCALES}"
 
 }
 
@@ -22,7 +23,7 @@ object DefaultLocaleRepository: LocaleRepository {
     override val locales: MutableMap<String, LocaleWrapper> = mutableMapOf()
     private val yaml: Yaml = Yaml()
 
-    override fun reload(): Kind<ForIO, Unit> = IO.fx {
+    override fun reload(): Kind<ForIO, Unit> = IO {
         val folder = File("C:/Lunala/locales")
         locales.clear()
 
