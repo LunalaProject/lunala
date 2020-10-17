@@ -63,14 +63,17 @@ class DiscordCommandHandler(
         return subcommand
     }
 
-    private fun breakArgs(base: CommandDSL<*>, compiled: CommandDSL<*>, args: List<String>): MutableList<String> {
-        val final = args.toMutableList()
-        for ((index, command) in base.subcommands.withIndex()) {
-            if (compiled == command) {
-                final.drop(index)
+    private fun breakArgs(base: CommandDSL<*>, compiled: CommandDSL<*>, args: List<String>): List<String> {
+        var arguments = args.joinToString(" ")
+
+        for (command in base.subcommands) {
+            if (compiled.subcommands.contains(command)) break
+            command.aliases.plus(command.name).forEach {
+                arguments = arguments.replaceFirst(it, "")
             }
         }
-        return final
+
+        return arguments.trim().split(" ")
     }
 
     companion object {

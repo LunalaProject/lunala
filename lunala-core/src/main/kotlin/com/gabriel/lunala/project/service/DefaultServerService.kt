@@ -10,7 +10,7 @@ class DefaultServerService: ServerService {
 
     override fun findById(id: Long): IO<Server> = IO {
         newSuspendedTransaction {
-            LunalaServer.findById(id) ?: error("Could not find user with id $id.")
+            LunalaServer.findById(id) ?: error("Could not find server with id $id.")
         }
     }
 

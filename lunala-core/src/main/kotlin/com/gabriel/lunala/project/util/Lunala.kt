@@ -12,9 +12,10 @@ import kotlinx.serialization.hocon.decodeFromConfig
 suspend fun main(): Unit = IO.fx {
     val config = !effect { loadConfig() }
 
-    val lunalaService = !SingleLunalaService(config, IO.monad())
+    val lunalaService = SingleLunalaService(config, IO.monad())
         .start()
         .attempt()
+        .bind()
 }.suspended()
 
 @OptIn(ExperimentalSerializationApi::class)

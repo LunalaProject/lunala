@@ -7,6 +7,7 @@ import arrow.fx.ForIO
 import arrow.fx.IO
 import com.gabriel.lunala.project.command.*
 import com.gabriel.lunala.project.command.impl.misc.PingCommand
+import com.gabriel.lunala.project.command.impl.misc.SayCommand
 import com.gabriel.lunala.project.command.impl.utils.SupportCommand
 import com.gabriel.lunala.project.platform.LunalaCluster
 import com.gabriel.lunala.project.util.ProfileService
@@ -25,6 +26,7 @@ class DefaultCommandService(private val cluster: LunalaCluster, private val serv
 
     private fun register() {
         repository.register(PingCommand().create())
+        repository.register(SayCommand().create())
         repository.register(SupportCommand().create())
     }
 
