@@ -33,15 +33,7 @@ jobs:
        path: lunala-api/build/libs/
 
     - uses: actions/upload-artifact@v2
-      name: Upload Lunala-JDA
+      name: Upload Lunala-Core
       with:
        name: LunalaJDA
-       path: lunala-jda/build/libs/
-
-    - uses: actions/upload-artifact@v2
-      name: Upload Lunala-Modules
-      with:
-       name: LunalaModules
-       path: lunala-modules/*/build/libs/*.jar
-
-
+       path: lunala-core/build/libs/
