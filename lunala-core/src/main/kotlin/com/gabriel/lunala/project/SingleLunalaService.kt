@@ -13,6 +13,7 @@ import com.gabriel.lunala.project.service.DefaultDatabaseService
 import com.gabriel.lunala.project.service.DefaultProfileService
 import com.gabriel.lunala.project.service.DefaultServerService
 import com.gabriel.lunala.project.util.LunalaDiscordConfig
+import com.gabriel.lunala.project.util.setupListeners
 import mu.KLogger
 import mu.toKLogger
 import org.slf4j.LoggerFactory
@@ -33,6 +34,7 @@ class SingleLunalaService<F>(override val config: LunalaDiscordConfig, MF: Monad
         }
 
         DefaultCommandService(cluster, primaryServices).start().bind()
+        setupListeners(cluster, primaryServices)
 
         cluster.login().bind()
     }

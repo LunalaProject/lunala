@@ -1,5 +1,6 @@
 package com.gabriel.lunala.project.entity
 
+import com.gabriel.lunala.project.util.GalaxyService
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -14,6 +15,7 @@ object LunalaPlanets: IdTable<String>() {
     var budget = long("budget")
     var security = float("security")
     var owner = long("owner")
+    val galaxy = varchar("galaxy", 16)
     var visited = bool("visited")
 
 }
@@ -28,6 +30,11 @@ class LunalaPlanet(id: EntityID<String>): Entity<String>(id), Planet {
     override var budget: Long by LunalaPlanets.budget
     override var security: Float by LunalaPlanets.security
     override var owner: Long by LunalaPlanets.owner
+    override var galaxy: String by LunalaProfiles.galaxy
     override var visited: Boolean by LunalaPlanets.visited
+
+    override suspend fun getGalaxy(service: GalaxyService): Galaxy =
+            service.findById(galaxy).suspended()
+
 
 }

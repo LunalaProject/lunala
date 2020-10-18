@@ -1,5 +1,7 @@
 package com.gabriel.lunala.project.entity
 
+import com.gabriel.lunala.project.premium.Premium
+import com.gabriel.lunala.project.util.PlanetService
 import com.gabriel.lunala.project.util.Service
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
@@ -14,6 +16,7 @@ object LunalaProfiles: LongIdTable() {
     val crew = integer("crew")
     val planet = varchar("planet", 16).default("Earth")
     val galaxy = varchar("galaxy", 16).default("Milky way")
+    val premium = enumeration("premium", Premium::class).default(Premium.NONE)
 
 }
 
@@ -29,7 +32,8 @@ class LunalaProfile(id: EntityID<Long>): LongEntity(id), Profile {
     override var crew: Int by LunalaProfiles.crew
     override var planet: String by LunalaProfiles.planet
     override var galaxy: String by LunalaProfiles.galaxy
+    override var premium: Premium by LunalaProfiles.premium
 
-    override suspend fun getPlanet(service: Service<String, Planet>): Planet =
+    override suspend fun getPlanet(service: PlanetService): Planet =
             service.findById(planet).suspended()
 }

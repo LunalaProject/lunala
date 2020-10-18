@@ -78,7 +78,7 @@ class DiscordCommandHandler(
 
     companion object {
 
-        const val PREFIX = ">"
+        const val PREFIX = "s@"
 
     }
 
