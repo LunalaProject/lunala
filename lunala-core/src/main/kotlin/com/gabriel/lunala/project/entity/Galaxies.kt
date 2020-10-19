@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.Column
 
 object LunalaGalaxies: IdTable<String>() {
 
-    override val id: Column<EntityID<String>> = LunalaPlanets.varchar("name", 16).entityId()
+    override val id: Column<EntityID<String>> = varchar("name", 16).entityId()
 
     val default = varchar("defaultPlanet", 32)
 }

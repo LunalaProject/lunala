@@ -4,6 +4,8 @@ import arrow.Kind
 import arrow.fx.ForIO
 import arrow.fx.IO
 import arrow.fx.extensions.fx
+import com.gabriel.lunala.project.entity.LunalaGalaxies
+import com.gabriel.lunala.project.entity.LunalaPlanets
 import com.gabriel.lunala.project.entity.LunalaProfiles
 import com.gabriel.lunala.project.entity.LunalaServers
 import com.gabriel.lunala.project.util.LunalaDiscordConfig
@@ -36,7 +38,11 @@ class DefaultDatabaseService(config: LunalaDiscordConfig): DatabaseService {
 
     override fun createTables(): Kind<ForIO, Unit> = IO {
         transaction {
-            SchemaUtils.createMissingTablesAndColumns(LunalaProfiles, LunalaServers)
+            try {
+                SchemaUtils.createMissingTablesAndColumns(LunalaProfiles, LunalaServers, LunalaPlanets, LunalaGalaxies)
+            } catch (exception: Throwable) {
+                exception.printStackTrace()
+            }
         }
     }
 

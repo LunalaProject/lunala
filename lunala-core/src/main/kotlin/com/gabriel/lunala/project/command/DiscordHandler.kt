@@ -30,7 +30,7 @@ class DiscordCommandHandler(
         val content = message.content.substring(PREFIX.length).trim().split(" ")
 
         val base = services.c.repository.retrieveWithAliases(content.firstOrNull() ?: return@on) ?: return@on
-        val command = getCommandDSL(content) ?: return@on
+        val command = getCommandDSL(base, content) ?: return@on
 
         val args = breakArgs(base, command, content.drop(1).toMutableList())
 
@@ -52,12 +52,11 @@ class DiscordCommandHandler(
         trigger.invoke(context)
     }
 
-    private fun getCommandDSL(content: List<String>): CommandDSL<*>? {
-        val command = services.c.repository.retrieve(content.firstOrNull() ?: return null) ?: return null
-        var subcommand: CommandDSL<*> = command
+    private fun getCommandDSL(base: CommandDSL<*>, content: List<String>): CommandDSL<*>? {
+        var subcommand: CommandDSL<*> = base
 
         for (argument in content.drop(1)) {
-            subcommand = command.subcommands.firstOrNull { it.name == argument || it.aliases.contains(argument) } ?: break
+            subcommand = base.subcommands.firstOrNull { it.name == argument || it.aliases.contains(argument) } ?: break
         }
 
         return subcommand
@@ -69,7 +68,7 @@ class DiscordCommandHandler(
         for (command in base.subcommands) {
             if (compiled.subcommands.contains(command)) break
             command.aliases.plus(command.name).forEach {
-                arguments = arguments.replaceFirst(it, "")
+                arguments = arguments.replaceFirst("$it ", "")
             }
         }
 

@@ -6,9 +6,8 @@ interface Planet {
 
     val name: String
     var distance: Long
-    var budget: Long
     var security: Float
-    var owner: Long
+    var owner: Long?
     var galaxy: String
     var visited: Boolean
 

@@ -25,7 +25,7 @@ class MentionListener(val cluster: LunalaCluster, val primary: Tuple2<ProfileSer
                 message.channel.reply(profile) {
                     append {
                         prefix = "\uD83E\uDD73"
-                        message = server.getLocale()["utils.mention", PREFIX]
+                        message = server.getLocale()["utils.messages.mention", PREFIX]
                     }
                 }.attempt().suspended()
             }
