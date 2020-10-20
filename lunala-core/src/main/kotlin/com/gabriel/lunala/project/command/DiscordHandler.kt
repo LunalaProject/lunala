@@ -1,7 +1,6 @@
 package com.gabriel.lunala.project.command
 
 import arrow.Kind
-import arrow.core.Tuple2
 import arrow.core.Tuple3
 import arrow.fx.ForIO
 import arrow.fx.IO
@@ -9,12 +8,11 @@ import arrow.fx.extensions.fx
 import arrow.fx.extensions.io.applicativeError.attempt
 import com.gabriel.lunala.project.platform.LunalaCluster
 import com.gabriel.lunala.project.service.CommandService
-import com.gabriel.lunala.project.util.ProfileService
-import com.gabriel.lunala.project.util.ServerService
+import com.gabriel.lunala.project.service.ProfileService
+import com.gabriel.lunala.project.service.ServerService
 import com.gitlab.kordlib.core.entity.channel.TextChannel
 import com.gitlab.kordlib.core.event.message.MessageCreateEvent
 import com.gitlab.kordlib.core.on
-import java.nio.file.WatchEvent
 
 class DiscordCommandHandler(
     private val cluster: LunalaCluster,

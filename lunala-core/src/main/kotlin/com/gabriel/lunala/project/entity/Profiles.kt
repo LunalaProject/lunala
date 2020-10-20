@@ -1,8 +1,7 @@
 package com.gabriel.lunala.project.entity
 
 import com.gabriel.lunala.project.premium.Premium
-import com.gabriel.lunala.project.util.PlanetService
-import com.gabriel.lunala.project.util.Service
+import com.gabriel.lunala.project.service.PlanetService
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

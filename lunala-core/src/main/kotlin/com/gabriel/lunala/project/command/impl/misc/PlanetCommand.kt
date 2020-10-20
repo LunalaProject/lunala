@@ -1,8 +1,8 @@
 package com.gabriel.lunala.project.command.impl.misc
 
 import com.gabriel.lunala.project.command.CommandCategory
-import com.gabriel.lunala.project.util.PlanetService
-import com.gabriel.lunala.project.util.ProfileService
+import com.gabriel.lunala.project.service.PlanetService
+import com.gabriel.lunala.project.service.ProfileService
 import com.gabriel.lunala.project.util.command
 import com.gabriel.lunala.project.util.embed
 import java.awt.Color
@@ -16,16 +16,17 @@ class PlanetCommand(val service: PlanetService, val profileService: ProfileServi
         }
 
         trigger {
-            val planet = runCatching {
-                service.findById(args.joinToString(" ")).suspended()
-            }.onFailure {
+            val planet = service.findById(args.joinToString(" ")).attempt().suspended().orNull()
+
+            if (planet == null) {
                 reply {
                     append {
                         prefix = "❌"
                         message = locale["commands.miscellaneous.planetinfo.notFound"]
                     }
                 }
-            }.getOrNull() ?: return@trigger
+                return@trigger
+            }
 
             reply {
                 append {

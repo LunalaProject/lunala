@@ -3,7 +3,6 @@ package com.gabriel.lunala.project.service
 import arrow.fx.IO
 import com.gabriel.lunala.project.entity.LunalaServer
 import com.gabriel.lunala.project.entity.Server
-import com.gabriel.lunala.project.util.ServerService
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class DefaultServerService: ServerService {

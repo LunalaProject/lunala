@@ -1,6 +1,6 @@
 package com.gabriel.lunala.project.entity
 
-import com.gabriel.lunala.project.util.GalaxyService
+import com.gabriel.lunala.project.service.GalaxyService
 
 interface Planet {
 

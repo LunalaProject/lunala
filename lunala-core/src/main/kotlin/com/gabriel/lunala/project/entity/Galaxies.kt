@@ -1,6 +1,6 @@
 package com.gabriel.lunala.project.entity
 
-import com.gabriel.lunala.project.util.PlanetService
+import com.gabriel.lunala.project.service.PlanetService
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID

@@ -1,9 +1,8 @@
 package com.gabriel.lunala.project.entity
 
 import com.gabriel.lunala.project.premium.Premium
+import com.gabriel.lunala.project.service.PlanetService
 import com.gabriel.lunala.project.util.MentionAware
-import com.gabriel.lunala.project.util.PlanetService
-import com.gabriel.lunala.project.util.Service
 
 interface Profile: MentionAware {
 
