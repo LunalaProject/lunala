@@ -1,4 +1,4 @@
-package com.gabriel.lunala.project.util
+package com.gabriel.lunala.project.util.misc
 
 fun String.adequatelyFormat(vararg formatting: String): String {
     var result: String = this

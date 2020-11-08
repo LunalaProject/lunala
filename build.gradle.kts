@@ -11,10 +11,12 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
+        implementation("com.github.LunalaProject.wrapper:wrapper-jvm:0.5.10")
 
         implementation("org.slf4j:slf4j-api:1.7.25")
         implementation("ch.qos.logback:logback-classic:1.2.3")
@@ -25,12 +27,6 @@ allprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.0.0-RC")
-
-        implementation("io.arrow-kt:arrow-core:0.11.0")
-        implementation("io.arrow-kt:arrow-fx:0.11.0")
-        implementation("io.arrow-kt:arrow-validation:0.11.0")
-        implementation("io.arrow-kt:arrow-mtl:0.11.0")
-        implementation("io.arrow-kt:arrow-meta:0.11.0")
     }
 
     tasks {

@@ -1,13 +1,11 @@
-package com.gabriel.lunala.project.util
+// Todo: FIX
 
-import arrow.Kind
-import arrow.fx.ForIO
-import arrow.fx.IO
-import arrow.fx.extensions.io.async.async
-import arrow.fx.typeclasses.Async
+package com.gabriel.lunala.project.util.command
+
+import com.gabriel.lunala.project.util.LunalaProfile
+import com.gabriel.lunala.project.util.LunalaReply
 import com.gitlab.kordlib.core.behavior.channel.MessageChannelBehavior
 import com.gitlab.kordlib.core.behavior.channel.createMessage
-import com.gitlab.kordlib.core.entity.Message
 import com.gitlab.kordlib.rest.builder.message.EmbedBuilder
 import com.gitlab.kordlib.rest.builder.message.MessageCreateBuilder
 
@@ -29,14 +27,18 @@ class ReplyDSL {
         replies.add(LunalaEmbeddableReply(":large_blue_diamond:", "", replies.isEmpty()).apply(reply))
     }
 
-    fun compile(target: MentionAware?) = MessageCreateBuilder().apply {
-        content = replies.joinToString("\n") { it.compile(target) }
-        embed = replies.map { (it as? LunalaEmbeddableReply)?.embed }.firstOrNull()
+    fun compile(target: LunalaProfile?) = MessageCreateBuilder().apply {
+        content = replies
+            .map { reply -> reply.compile(target) }
+            .joinToString("\n")
+        embed = replies
+            .map { reply -> (reply as? LunalaEmbeddableReply)?.embed }
+            .firstOrNull()
     }
 
 }
 
-fun <F> MessageChannelBehavior.reply(async: Async<F>, target: MentionAware? = null, reply: ReplyDSL): Kind<F, Message> = async.effect {
+suspend fun MessageChannelBehavior.reply(target: LunalaProfile? = null, reply: ReplyDSL) {
     createMessage {
         reply.compile(target).let {
             content = it.content
@@ -45,5 +47,5 @@ fun <F> MessageChannelBehavior.reply(async: Async<F>, target: MentionAware? = nu
     }
 }
 
-fun MessageChannelBehavior.reply(target: MentionAware? = null, builder: ReplyDSL.() -> Unit): Kind<ForIO, Message> =
-    reply(IO.async(), target, ReplyDSL().apply(builder))
+suspend fun MessageChannelBehavior.reply(target: LunalaProfile? = null, builder: ReplyDSL.() -> Unit) =
+    reply(target, ReplyDSL().apply(builder))

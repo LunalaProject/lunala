@@ -1,24 +1,24 @@
 package com.gabriel.lunala.project.util
 
-import arrow.fx.IO
-import arrow.fx.extensions.fx
-import arrow.fx.extensions.io.monad.monad
-import com.gabriel.lunala.project.SingleLunalaService
+import com.gabriel.lunala.project.Lunala
+import com.gabriel.lunala.project.LunalaDiscord
 import com.typesafe.config.ConfigFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.hocon.Hocon
 import kotlinx.serialization.hocon.decodeFromConfig
 
-suspend fun main(): Unit = IO.fx {
-    val config = !effect { loadConfig() }
+@Deprecated("May be replaced")
+lateinit var lunala: Lunala
 
-    val lunalaService = SingleLunalaService(config, IO.monad())
-        .start()
-        .attempt()
-        .bind()
-}.suspended()
+suspend fun main() {
+    val config = loadConfig()
+
+    lunala = LunalaDiscord(config).apply {
+        start()
+    }
+}
 
 @OptIn(ExperimentalSerializationApi::class)
-private suspend fun loadConfig(): LunalaDiscordConfig = inspect("config.conf").map {
+private fun loadConfig(): LunalaDiscordConfig = inspect("config.conf").let {
     Hocon.decodeFromConfig<LunalaDiscordConfig>(ConfigFactory.parseFile(it))
-}.suspended()
+}

@@ -1,4 +1,4 @@
-package com.gabriel.lunala.project.util
+package com.gabriel.lunala.project.util.command
 
 import com.gabriel.lunala.project.command.CommandCategory
 import com.gabriel.lunala.project.command.CommandDSL

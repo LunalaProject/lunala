@@ -1,32 +1,25 @@
 package com.gabriel.lunala.project.listener
 
-import arrow.core.Tuple2
-import arrow.fx.IO
-import arrow.fx.extensions.io.applicativeError.attempt
-import com.gabriel.lunala.project.command.DiscordCommandHandler.Companion.PREFIX
-import com.gabriel.lunala.project.platform.LunalaCluster
-import com.gabriel.lunala.project.service.ProfileService
-import com.gabriel.lunala.project.service.ServerService
-import com.gabriel.lunala.project.util.reply
+import com.gabriel.lunala.project.LunalaDiscord
+import com.gabriel.lunala.project.command.DiscordCommandHandler
+import com.gabriel.lunala.project.util.command.reply
 import com.gitlab.kordlib.core.event.message.MessageCreateEvent
 import com.gitlab.kordlib.core.on
 import kotlinx.coroutines.Job
 
-class MentionListener(val cluster: LunalaCluster, val primary: Tuple2<ProfileService, ServerService>) {
+class MentionListener(val lunala: LunalaDiscord) {
 
-    fun create(): IO<Job> = IO {
-        cluster.client.on<MessageCreateEvent> {
-            if (message.content.replace(" ", "") == "<@!${cluster.client.selfId.longValue}>" && guildId != null) {
+    fun create(): Job = lunala.client.on<MessageCreateEvent> {
+        if (message.content.replace(" ", "") == "<@!${lunala.client.selfId.longValue}>" && guildId != null) {
+            val profile = lunala.getProfileById(message.author!!.id.longValue, createIfNull = true)
+            val botPrefix = DiscordCommandHandler.PREFIX
 
-                val profile = primary.a.findOrCreateById(message.author!!.id.longValue).suspended()
-                val server = primary.b.findOrCreateById(guildId!!.longValue).suspended()
-
-                message.channel.reply(profile) {
-                    append {
-                        prefix = "\uD83E\uDD73"
-                        message = server.getLocale()["utils.messages.mention", PREFIX]
-                    }
-                }.attempt().suspended()
+            message.channel.reply(profile) {
+                append {
+                    prefix = "\uD83E\uDD73"
+                    message = "Hey, I'm Lunala! A lightweight space exploration bot! My prefix on this server is `%s`!".format(botPrefix)
+                    mentions = true
+                }
             }
         }
     }

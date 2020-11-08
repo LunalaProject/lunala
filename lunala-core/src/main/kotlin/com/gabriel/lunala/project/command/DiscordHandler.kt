@@ -1,82 +1,45 @@
 package com.gabriel.lunala.project.command
 
-import arrow.Kind
-import arrow.core.Tuple3
-import arrow.fx.ForIO
-import arrow.fx.IO
-import arrow.fx.extensions.fx
-import arrow.fx.extensions.io.applicativeError.attempt
-import com.gabriel.lunala.project.platform.LunalaCluster
-import com.gabriel.lunala.project.service.CommandService
-import com.gabriel.lunala.project.service.ProfileService
-import com.gabriel.lunala.project.service.ServerService
+import com.gabriel.lunala.project.LunalaDiscord
 import com.gitlab.kordlib.core.entity.channel.TextChannel
 import com.gitlab.kordlib.core.event.message.MessageCreateEvent
 import com.gitlab.kordlib.core.on
 
-class DiscordCommandHandler(
-    private val cluster: LunalaCluster,
-    private val services: Tuple3<ProfileService, ServerService, CommandService>
-) {
+class DiscordCommandHandler(private val lunala: LunalaDiscord) {
 
-    suspend fun setup() = cluster.client.on<MessageCreateEvent> {
-        if (message.content.startsWith(PREFIX).not() || message.content.length == PREFIX.length)
-            return@on
-        if (member == null || guildId == null)
-            return@on
+    suspend fun setup() = lunala.client.on<MessageCreateEvent> {
+        if (message.content.startsWith(PREFIX).not() || message.content.length == PREFIX.length || member == null || guildId == null) return@on
 
-        val content = message.content.substring(PREFIX.length).trim().split(" ")
+        val content = message.content.substring(PREFIX.length).trim().split(" ").ifEmpty { return@on }
+        val args = content.drop(1).toMutableList()
 
-        val base = services.c.repository.retrieveWithAliases(content.firstOrNull() ?: return@on) ?: return@on
-        val command = getCommandDSL(base, content) ?: return@on
-
-        val args = breakArgs(base, command, content.drop(1).toMutableList())
+        val command = lunala.prototypeService
+            .getCommand(content.first(), true)
+            .let { base -> reformulate(base, args) }
 
         val guild = message.getGuild()
         val channel = message.getChannel() as? TextChannel ?: return@on
 
-        val contextIo = IO.fx {
-            val profile = services.a.findOrCreateById(message.author!!.id.longValue).bind()
-            val server = services.b.findOrCreateById(guildId!!.longValue).bind()
+        val profile = lunala.getProfileById(message.author!!.id.longValue, createIfNull = true)!!
+        val server = lunala.getServerById(guildId!!.longValue, createIfNull = true)!!
 
-            DiscordCommandContext(content[0], profile, server, args, command, kord, member!!, guild, message, channel, cluster)
-        }
+        val context = DiscordCommandContext(content[0], profile, server, args, command, kord, member!!, guild, message, channel)
 
-        dispatch(contextIo.suspended()).attempt().suspended()
-    }
-
-    private suspend fun dispatch(context: DiscordCommandContext): Kind<ForIO, Unit> = IO {
-        val trigger = context.command.trigger!!
-        trigger.invoke(context)
-    }
-
-    private fun getCommandDSL(base: CommandDSL<*>, content: List<String>): CommandDSL<*>? {
-        var subcommand: CommandDSL<*> = base
-
-        for (argument in content.drop(1)) {
-            subcommand = base.subcommands.firstOrNull { it.name == argument || it.aliases.contains(argument) } ?: break
-        }
-
-        return subcommand
-    }
-
-    private fun breakArgs(base: CommandDSL<*>, compiled: CommandDSL<*>, args: List<String>): List<String> {
-        var arguments = args.joinToString(" ")
-
-        for (command in base.subcommands) {
-            if (compiled.subcommands.contains(command)) break
-            command.aliases.plus(command.name).forEach {
-                arguments = arguments.replaceFirst("$it ", "")
-            }
-        }
-
-        return arguments.trim().split(" ")
+        dispatch(context)
     }
 
     companion object {
-
         const val PREFIX = "s@"
-
     }
+}
 
+private suspend fun dispatch(context: DiscordCommandContext) {
+    context.command.trigger?.invoke(context)
+}
+
+private tailrec fun reformulate(command: CommandDSL<*>, arguments: MutableList<String>): CommandDSL<*> {
+    val match = command.subcommands.firstOrNull { it.name.plus(it.aliases).contains(arguments.firstOrNull() ?: return command) } ?: return command
+
+    arguments.remove(arguments.first())
+    return reformulate(match, arguments)
 }

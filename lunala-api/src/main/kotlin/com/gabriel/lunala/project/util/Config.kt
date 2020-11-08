@@ -5,21 +5,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LunalaDiscordConfig(
     val general: GeneralConfigSection,
-    val discord: DiscordConfigSection,
     val client: ClientConfigSection,
-    val database: DatabaseConfigSection
+    val database: DatabaseConfigSection,
+    val discord: DiscordConfigSection,
+    val website: WebsiteConfigSection
 ) {
 
     @Serializable
     data class GeneralConfigSection(
-        val website: String,
         val environment: String
-    )
-
-    @Serializable
-    data class DiscordConfigSection(
-        val discord: String,
-        val discordId: String
     )
 
     @Serializable
@@ -37,6 +31,17 @@ data class LunalaDiscordConfig(
         val password: String
     )
 
+    @Serializable
+    data class DiscordConfigSection(
+        val discord: String,
+        val discordId: String
+    )
+
+    @Serializable
+    data class WebsiteConfigSection(
+        val url: String,
+        val key: String
+    )
 }
 
 class ConfigInspectionException(message: String?, throwable: Throwable? = null): Exception(message, throwable)

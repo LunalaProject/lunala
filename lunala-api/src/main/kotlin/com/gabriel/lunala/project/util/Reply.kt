@@ -6,7 +6,7 @@ open class LunalaReply(
     var mentions: Boolean = true
 ) {
 
-    open fun compile(target: MentionAware? = null): String = "$prefix **|** ${if (target != null && mentions) target.mention().plus(" ") else ""}$message"
+    open fun compile(target: LunalaProfile? = null): String = "$prefix **|** ${if (target != null && mentions) target.mention.plus(" ") else "" }$message"
 
     companion object
 

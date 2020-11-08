@@ -19,5 +19,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:0.24.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.24.1")
 
+    implementation("io.ktor:ktor-client-core:1.4.1")
+    implementation("io.ktor:ktor-client-cio-jvm:1.4.1")
+
     runtimeOnly("mysql:mysql-connector-java:8.0.20")
 }

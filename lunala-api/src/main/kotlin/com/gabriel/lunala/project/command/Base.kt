@@ -1,11 +1,10 @@
 package com.gabriel.lunala.project.command
 
-import com.gabriel.lunala.project.locale.LocaleWrapper
-import me.eugeniomarletti.kotlin.metadata.shadow.utils.addToStdlib.cast
+import com.gabriel.lunala.project.util.kotlin.cast
 
 typealias CommandSet = MutableList<CommandDSL<*>>
 typealias CommandTrigger = suspend CommandContext.() -> Unit
-typealias CommandDescription = DescriptionDSL.(LocaleWrapper) -> Unit
+typealias CommandDescription = DescriptionDSL.() -> Unit
 
 data class CommandDSL<A : CommandContext>(
     val name: String,
@@ -40,6 +39,7 @@ class DescriptionDSL(val entries: MutableList<String> = mutableListOf()) {
 
 enum class CommandCategory {
 
+    ACTIONS,
     MISCELLANEOUS,
     UTILS;
 
