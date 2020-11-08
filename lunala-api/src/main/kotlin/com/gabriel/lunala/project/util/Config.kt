@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 data class LunalaDiscordConfig(
     val general: GeneralConfigSection,
     val client: ClientConfigSection,
-    val database: DatabaseConfigSection,
     val discord: DiscordConfigSection,
     val website: WebsiteConfigSection
 ) {
@@ -20,15 +19,6 @@ data class LunalaDiscordConfig(
     data class ClientConfigSection(
         val token: String,
         val shards: Int
-    )
-
-    @Serializable
-    data class DatabaseConfigSection(
-        val host: String,
-        val port: String,
-        val database: String,
-        val user: String,
-        val password: String
     )
 
     @Serializable
