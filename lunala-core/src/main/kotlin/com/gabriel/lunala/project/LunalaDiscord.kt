@@ -9,7 +9,7 @@ import io.ktor.client.engine.cio.*
 import io.ktor.util.*
 
 @OptIn(KtorExperimentalAPI::class)
-class LunalaDiscord(config: LunalaDiscordConfig): Lunala(config,  LunalaWrapper(config.website.url, config.website.key, HttpClient(CIO.create()) {prepareClient()})) {
+class LunalaDiscord(config: LunalaDiscordConfig): Lunala(config,  LunalaWrapper(config.website.url + "/api", config.website.key, HttpClient(CIO.create()) {prepareClient()})) {
 
     lateinit var client: Kord
 
