@@ -10,5 +10,5 @@ interface PrototypeService {
 
     suspend fun start()
 
-    fun getCommand(name: String, aliases: Boolean = true): CommandDSL<*>
+    fun getCommand(name: String, aliases: Boolean = true): CommandDSL<*>?
 }

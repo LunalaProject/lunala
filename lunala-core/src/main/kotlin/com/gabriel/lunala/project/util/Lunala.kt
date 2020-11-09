@@ -13,9 +13,8 @@ lateinit var lunala: Lunala
 suspend fun main() {
     val config = loadConfig()
 
-    lunala = LunalaDiscord(config).apply {
-        start()
-    }
+    lunala = LunalaDiscord(config)
+    lunala.start()
 }
 
 @OptIn(ExperimentalSerializationApi::class)

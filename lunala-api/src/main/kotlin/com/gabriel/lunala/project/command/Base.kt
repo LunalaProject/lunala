@@ -4,7 +4,6 @@ import com.gabriel.lunala.project.util.kotlin.cast
 
 typealias CommandSet = MutableList<CommandDSL<*>>
 typealias CommandTrigger = suspend CommandContext.() -> Unit
-typealias CommandDescription = DescriptionDSL.() -> Unit
 
 data class CommandDSL<A : CommandContext>(
     val name: String,
@@ -15,25 +14,13 @@ data class CommandDSL<A : CommandContext>(
     var trigger: CommandTrigger? = null
     val subcommands: CommandSet = mutableListOf()
 
-    var description: CommandDescription? = null
-
-    fun description(block: CommandDescription) {
-        description = block
-    }
-
     inline fun command(name: String, vararg aliases: String, block: CommandDSL<A>.() -> Unit) {
         subcommands.add(CommandDSL<A>(name, aliases.toList(), category).apply(block))
     }
 
-    fun trigger(block: suspend A.() -> Unit) {
+    fun executor(block: suspend A.() -> Unit) {
         trigger = block.cast()
     }
-
-}
-
-class DescriptionDSL(val entries: MutableList<String> = mutableListOf()) {
-
-    operator fun String.unaryPlus() = entries.add(this)
 
 }
 

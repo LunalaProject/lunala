@@ -15,7 +15,7 @@ class DiscordCommandHandler(private val lunala: LunalaDiscord) {
 
         val command = lunala.prototypeService
             .getCommand(content.first(), true)
-            .let { base -> reformulate(base, args) }
+            ?.let { base -> reformulate(base, args) } ?: return@on
 
         val guild = message.getGuild()
         val channel = message.getChannel() as? TextChannel ?: return@on
